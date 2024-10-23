@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 const AdminPanel = () => {
   const [jobs, setJobs] = useState([]);
   const [formData, setFormData] = useState({
+    companyname: "",
     title: "",
     description: "",
     apply_link: "",
     image_link: "",
+    url: "",
   });
   const [editJobId, setEditJobId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -53,10 +55,12 @@ const AdminPanel = () => {
       fetchJobs(); // Refresh job list
       setEditJobId(null); // Reset form
       setFormData({
-        title: "",
-        description: "",
-        apply_link: "",
-        image_link: "",
+        companyname: "",
+    title: "",
+    description: "",
+    apply_link: "",
+    image_link: "",
+    url: "",
       });
     } else {
       const errorMessage = await response.text();
@@ -81,10 +85,12 @@ const AdminPanel = () => {
   const handleEdit = (job) => {
     setEditJobId(job.id);
     setFormData({
+      companyname: job.companyname,
       title: job.title,
       description: job.description,
       apply_link: job.apply_link,
       image_link: job.image_link,
+      url: job.url,
     });
   };
 
@@ -124,6 +130,14 @@ const AdminPanel = () => {
             setFormData({ ...formData, image_link: e.target.value })
           }
         />
+        <input
+          type="text"
+          placeholder="url"
+          value={formData.url}
+          onChange={(e) =>
+            setFormData({ ...formData, url: e.target.value })
+          }
+        />
         <button type="submit">
           {editJobId ? "Update Job" : "Add Job"}
         </button>
@@ -136,6 +150,7 @@ const AdminPanel = () => {
             <h1>{job.companyname}</h1>
             <h3>{job.title}</h3>
             <p>{job.description}</p>
+            <p>{job.url}</p>
             <button onClick={() => handleEdit(job)}>Edit</button>
             <button onClick={() => handleDelete(job.id)}>Delete</button>
           </li>
