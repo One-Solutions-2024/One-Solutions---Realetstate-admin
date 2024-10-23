@@ -101,6 +101,12 @@ const AdminPanel = () => {
       {error && <div>Error: {error}</div>}
       
       <form onSubmit={handleSubmit}>
+      <input
+          type="text"
+          placeholder="Companyname"
+          value={formData.companyname}
+          onChange={(e) => setFormData({ ...formData, companyname: e.target.value })}
+        />
         <input
           type="text"
           placeholder="Title"
