@@ -14,6 +14,7 @@ const AdminPanel = () => {
   const [editJobId, setEditJobId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [notification, setNotification] = useState("");  // New state for notification
 
   // Fetch jobs
   const fetchJobs = async () => {
@@ -63,6 +64,8 @@ const AdminPanel = () => {
         image_link: "",
         url: "",
       });
+      setNotification(editJobId ? "Successfully updated the job!" : "Successfully added the job!");
+      setTimeout(() => setNotification(""), 3000);  // Hide notification after 3 seconds
     } else {
       const errorMessage = await response.text();
       setError(`Error: ${errorMessage}`);
@@ -76,6 +79,8 @@ const AdminPanel = () => {
     });
     if (response.ok) {
       fetchJobs();
+      setNotification("Successfully deleted the job!");  // Set delete notification
+      setTimeout(() => setNotification(""), 3000);  // Hide notification after 3 seconds
     } else {
       const errorMessage = await response.text();
       setError(`Error: ${errorMessage}`);
@@ -95,13 +100,12 @@ const AdminPanel = () => {
     });
   };
 
-
-
-
   return (
     <div className="admin-container">
       <h1 className="admin-name">Admin Panel</h1>
-      
+
+      {/* Notification popup */}
+      {notification && <div className="notification-popup">{notification}</div>}
 
       <form onSubmit={handleSubmit}>
         <div className="submit-container">
@@ -115,7 +119,6 @@ const AdminPanel = () => {
             />
             <input
               className="first-input title"
-
               type="text"
               placeholder="Company Title/Role"
               value={formData.title}
@@ -126,7 +129,7 @@ const AdminPanel = () => {
           <div className="second-input-container">
             <textarea
               className="second-input description"
-              placeholder="Description Ex:Bachelor's Degree/Master's Degree, 2021/2022/2023/2024,"
+              placeholder="Description Ex:Bachelor's Degree/Master's Degree#         2021/2022/2023/2024#"
               value={formData.description}
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
@@ -134,7 +137,6 @@ const AdminPanel = () => {
             />
             <input
               className="second-input"
-
               type="text"
               placeholder="Apply Link"
               value={formData.apply_link}
@@ -144,7 +146,6 @@ const AdminPanel = () => {
             />
             <input
               className="second-input"
-
               type="text"
               placeholder="Image Link"
               value={formData.image_link}
@@ -154,7 +155,6 @@ const AdminPanel = () => {
             />
             <input
               className="second-input"
-
               type="text"
               placeholder="url"
               value={formData.url}
@@ -171,12 +171,11 @@ const AdminPanel = () => {
 
       <h2 className="job-list-name">Job List</h2>
       <div className="loader-container">
-      {loading && <div class="loader"></div>}
-      {error && <div>Error: {error}</div>}
+        {loading && <div className="loader"></div>}
+        {error && <div className="error-clor">Error: {error}</div>}
       </div>
-      
+
       <div className="job-list-container">
-      
         <ul className="job-list">
           {jobs.map((job) => {
             const descriptionPoints = job.description
@@ -189,20 +188,18 @@ const AdminPanel = () => {
                 <h3>{job.title}</h3>
                 <ul className="descriptions-details-side">
                   {descriptionPoints.map((point, index) => (
-                    <li key={index}>{point}</li>
+                    <li className="list-class" key={index}>{point}</li>
                   ))}
                 </ul>
                 <p>{job.url}</p>
                 <div className="button-container">
                   <button className="button add-edit-button" onClick={() => handleEdit(job)}>Edit</button>
                   <button className="button add-edit-button" onClick={() => handleDelete(job.id)}>Delete</button>
-
                 </div>
               </div>
             );
           })}
         </ul>
-
       </div>
     </div>
   );

@@ -1,170 +1,286 @@
 body {
-    margin-top: 10px;
+  margin-top: 0px;
+}
+
+.admin-container {
+  background-image: url("https://wallpapercave.com/wp/wp3071223.jpg");
+  background-size: cover;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  height: auto;
+  padding-bottom: 20px;
+}
+
+.admin-name {
+  padding-top: 20px;
+  font-size: 26px;
+  text-align: center;
+  color: aqua;
+  font-weight: bold;
+}
+
+.submit-container {
+  gap: 10px;
+}
+
+.first-input-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.first-input {
+  background-color: transparent;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  transition: background-color 0.3s ease-in-out;
+  width: 30%;
+  color: #fff; /* Text color for input text */
+}
+
+/* Placeholder text color */
+.first-input::placeholder {
+  color: #fff; /* White placeholder text */
+  opacity: 1; /* Ensure opacity is 100% for visibility */
+}
+
+.first-input:focus-within {
+  background-color: #fff; 
+  border-color: #aaa;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  color: #000; /* Text color: black on focus */
+}
+
+/* Change placeholder text color when focused, if needed */
+.first-input:focus::placeholder {
+  color: #000; /* Placeholder text color turns black when focused */
+}
+
+
+.second-input {
+  background-color: transparent;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  transition: background-color 0.3s ease-in-out;
+  width: 30%;
+  color: #fff; /* Text color for input text */
+}
+
+/* Placeholder text color */
+.second-input::placeholder {
+  color: #fff; /* White placeholder text */
+  opacity: 1; /* Ensure opacity is 100% for visibility */
+}
+
+.second-input:focus-within {
+  background-color: #ffffff; 
+  border-color: #aaa;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  color: #000; /* Text color: black on focus */
+}
+
+/* Change placeholder text color when focused, if needed */
+.second-input:focus::placeholder {
+  color: #000; /* Placeholder text color turns black when focused */
+}
+
+
+
+
+.second-input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.second-input {
+  width: 60%;
+  margin: 10px 10px;
+}
+
+.description {
+  height: 220px;
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+input {
+  border-radius: 12px;
+  padding: 10px;
+  border: 1.5px solid rgb(0 0 0 / 10%);
+  outline: none;
+}
+
+.button {
+  background-color: #f1636f;
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #f8fafc;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+.error-clor{
+  color: red;
+
+}
+
+/* job-list */
+
+.job-list-name {
+  font-size: 26px;
+  text-align: center;
+  color: aqua;
+  font-weight: bold;
+}
+
+.company-card-name {
+  color: red;
+  font-size: 1.5rem;
+}
+
+.job-list-container {
+  padding: 0;
+  margin: 0 auto;
+  /* Center the job list container */
+  width: 100%;
+  /* Ensure it takes the full width */
+}
+
+.job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0;
+}
+
+.job-card {
+  background-color: #ffffff65;
+  width: 90%;
+  /* Reduce width to leave space for margins */
+  margin: 0 auto;
+  /* Center the job card */
+  padding: 10px;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  /* Ensures padding/border don't affect width */
+}
+
+/* Adding space to left and right */
+.job-card {
+  margin-left: 5%;
+  /* Add 5% margin to the left */
+  margin-right: 5%;
+  /* Add 5% margin to the right */
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-edit-button {
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: blue;
+
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+  border-radius: 50%;
+  background:
+    linear-gradient(0deg, rgb(0 0 0/50%) 30%, #0000 0 70%, rgb(0 0 0/100%) 0) 50%/8% 100%,
+    linear-gradient(90deg, rgb(0 0 0/25%) 30%, #0000 0 70%, rgb(0 0 0/75%) 0) 50%/100% 8%;
+  background-repeat: no-repeat;
+  animation: l23 1s infinite steps(12);
+}
+
+.loader::before,
+.loader::after {
+  content: "";
+  grid-area: 1/1;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0.915;
+  transform: rotate(30deg);
+}
+
+.loader::after {
+  opacity: 0.83;
+  transform: rotate(60deg);
+}
+
+@keyframes l23 {
+  100% {
+    transform: rotate(1turn)
   }
-  
-  .admin-container {
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+}
+
+.list-class {
+  list-style-type: disc;
+}
+
+.notification-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4caf50; /* Success green */
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+  z-index: 1000;
+  opacity: 0.9;
+}
+
+.notification-popup.error {
+  background-color: #f44336; /* Error red */
+}
+
+
+
+/* Mobile styles */
+@media (max-width: 480px) {
+  .first-input {
     width: 100%;
-    height: auto;
   }
-  
-  .admin-name {
-    font-size: 22px;
-    text-align: center;
-  }
-  
-  .submit-container {
-    gap: 10px;
-  }
-  
+
   .first-input-container {
     display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
-  
-  .first-input {
-    width: 30%;
-  }
-  
-  .second-input-container {
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .second-input {
-    width: 60%;
-    margin: 10px 10px;
-  }
-  
-  .description {
-    height: 220px;
-    border-radius: 12px;
-    padding: 10px;
-    border: 1.5px solid rgb(0 0 0 / 10%);
-    outline: none;
-  }
-  
-  input {
-    border-radius: 12px;
-    padding: 10px;
-    border: 1.5px solid rgb(0 0 0 / 10%);
-    outline: none;
-  }
-  
-  .button {
-    background-color: #6366f1;
-    padding: 12px 28px;
-    font-size: 15px;
-    font-weight: bold;
-    color: #f8fafc;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    outline: none;
-    margin-bottom: 20px;
-  }
-  
-  /* job-list */
-  
-  .job-list-name {
-    text-align: center;
-  }
-  
-  .company-card-name {
-    color: red;
-    font-size: 1.5rem;
-  }
-  
-  .job-list-container {
-    padding: 0;
-    margin: 0 auto; /* Center the job list container */
-    width: 100%; /* Ensure it takes the full width */
-  }
-  
-  .job-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 0;
-  }
-  
-  .job-card {
-    background-color: #ffffff;
-    width: 90%; /* Reduce width to leave space for margins */
-    margin: 0 auto; /* Center the job card */
-    padding: 10px;
-    color: #333;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    box-sizing: border-box; /* Ensures padding/border don't affect width */
-  }
-  
-  /* Adding space to left and right */
-  .job-card {
-    margin-left: 5%;  /* Add 5% margin to the left */
-    margin-right: 5%; /* Add 5% margin to the right */
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .add-edit-button {
     margin-left: 10px;
     margin-right: 10px;
   }
 
-  /* HTML: <div class="loader"></div> */
-.loader {
-    width: 50px;
-    aspect-ratio: 1;
-    display: grid;
-    border-radius: 50%;
-    background:
-      linear-gradient(0deg ,rgb(0 0 0/50%) 30%,#0000 0 70%,rgb(0 0 0/100%) 0) 50%/8% 100%,
-      linear-gradient(90deg,rgb(0 0 0/25%) 30%,#0000 0 70%,rgb(0 0 0/75% ) 0) 50%/100% 8%;
-    background-repeat: no-repeat;
-    animation: l23 1s infinite steps(12);
-  }
-  .loader::before,
-  .loader::after {
-     content: "";
-     grid-area: 1/1;
-     border-radius: 50%;
-     background: inherit;
-     opacity: 0.915;
-     transform: rotate(30deg);
-  }
-  .loader::after {
-     opacity: 0.83;
-     transform: rotate(60deg);
-  }
-  @keyframes l23 {
-    100% {transform: rotate(1turn)}
+  .second-input {
+    width: 95%;
   }
 
-  .loader-container{
-    display: flex;
-    justify-content: center;
+  .job-card {
+    width: 90%;
+    /* Ensure the job card width takes the full width */
+    margin-left: 5%;
+    margin-right: 5%;
   }
-  
-  /* Mobile styles */
-  @media (max-width: 480px) {
-    .first-input {
-      width: 50%;
-    }
-  
-    .second-input {
-      width: 95%;
-    }
-  
-    .job-card {
-      width: 90%; /* Ensure the job card width takes the full width */
-      margin-left: 5%;
-      margin-right: 5%;
-    }
-  }
-  
+}
