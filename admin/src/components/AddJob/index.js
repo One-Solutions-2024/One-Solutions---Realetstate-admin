@@ -180,7 +180,7 @@ const AdminPanel = () => {
         <ul className="job-list">
           {jobs.map((job) => {
             const descriptionPoints = job.description
-              ? job.description.split(".").map((point) => point.trim())
+              ? job.description.split("@").map((point) => point.trim())
               : [];
 
             return (
