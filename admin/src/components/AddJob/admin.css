@@ -1,0 +1,136 @@
+body {
+    margin: 0px;
+  }
+  
+  .admin-container {
+    width: 100%;
+    height: auto;
+  }
+  
+  .admin-name {
+    font-size: 22px;
+    text-align: center;
+  }
+  
+  .submit-container {
+    gap: 10px;
+  }
+  
+  .first-input-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .first-input {
+    width: 30%;
+  }
+  
+  .second-input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .second-input {
+    width: 60%;
+    margin: 10px 10px;
+  }
+  
+  .description {
+    height: 220px;
+    border-radius: 12px;
+    padding: 10px;
+    border: 1.5px solid rgb(0 0 0 / 10%);
+    outline: none;
+  }
+  
+  input {
+    border-radius: 12px;
+    padding: 10px;
+    border: 1.5px solid rgb(0 0 0 / 10%);
+    outline: none;
+  }
+  
+  .button {
+    background-color: #6366f1;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #f8fafc;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 20px;
+  }
+  
+  /* job-list */
+  
+  .job-list-name {
+    text-align: center;
+  }
+  
+  .company-card-name {
+    color: red;
+    font-size: 1.5rem;
+  }
+  
+  .job-list-container {
+    padding: 0;
+    margin: 0 auto; /* Center the job list container */
+    width: 100%; /* Ensure it takes the full width */
+  }
+  
+  .job-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0;
+  }
+  
+  .job-card {
+    background-color: #ffffff;
+    width: 90%; /* Reduce width to leave space for margins */
+    margin: 0 auto; /* Center the job card */
+    padding: 10px;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box; /* Ensures padding/border don't affect width */
+  }
+  
+  /* Adding space to left and right */
+  .job-card {
+    margin-left: 5%;  /* Add 5% margin to the left */
+    margin-right: 5%; /* Add 5% margin to the right */
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .add-edit-button {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  /* Mobile styles */
+  @media (max-width: 480px) {
+    .first-input {
+      width: 50%;
+    }
+  
+    .second-input {
+      width: 95%;
+    }
+  
+    .job-card {
+      width: 90%; /* Ensure the job card width takes the full width */
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+  }
+  

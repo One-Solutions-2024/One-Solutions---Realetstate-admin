@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./admin.css"
 
 const AdminPanel = () => {
   const [jobs, setJobs] = useState([]);
@@ -56,11 +57,11 @@ const AdminPanel = () => {
       setEditJobId(null); // Reset form
       setFormData({
         companyname: "",
-    title: "",
-    description: "",
-    apply_link: "",
-    image_link: "",
-    url: "",
+        title: "",
+        description: "",
+        apply_link: "",
+        image_link: "",
+        url: "",
       });
     } else {
       const errorMessage = await response.text();
@@ -94,74 +95,110 @@ const AdminPanel = () => {
     });
   };
 
+
+
+
   return (
-    <div>
-      <h1>Admin Panel</h1>
+    <div className="admin-container">
+      <h1 className="admin-name">Admin Panel</h1>
       {loading && <div>Loading...</div>}
       {error && <div>Error: {error}</div>}
-      
+
       <form onSubmit={handleSubmit}>
-      <input
-          type="text"
-          placeholder="Companyname"
-          value={formData.companyname}
-          onChange={(e) => setFormData({ ...formData, companyname: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Title"
-          value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-        />
-        <textarea
-          placeholder="Description"
-          value={formData.description}
-          onChange={(e) =>
-            setFormData({ ...formData, description: e.target.value })
-          }
-        />
-        <input
-          type="text"
-          placeholder="Apply Link"
-          value={formData.apply_link}
-          onChange={(e) =>
-            setFormData({ ...formData, apply_link: e.target.value })
-          }
-        />
-        <input
-          type="text"
-          placeholder="Image Link"
-          value={formData.image_link}
-          onChange={(e) =>
-            setFormData({ ...formData, image_link: e.target.value })
-          }
-        />
-        <input
-          type="text"
-          placeholder="url"
-          value={formData.url}
-          onChange={(e) =>
-            setFormData({ ...formData, url: e.target.value })
-          }
-        />
-        <button type="submit">
-          {editJobId ? "Update Job" : "Add Job"}
-        </button>
+        <div className="submit-container">
+          <div className="first-input-container">
+            <input
+              className="first-input companyname"
+              type="text"
+              placeholder="Company Name"
+              value={formData.companyname}
+              onChange={(e) => setFormData({ ...formData, companyname: e.target.value })}
+            />
+            <input
+              className="first-input title"
+
+              type="text"
+              placeholder="Company Title/Role"
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            />
+          </div>
+
+          <div className="second-input-container">
+            <textarea
+              className="second-input description"
+              placeholder="Description Ex:Bachelor's Degree/Master's Degree, 2021/2022/2023/2024,"
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+            />
+            <input
+              className="second-input"
+
+              type="text"
+              placeholder="Apply Link"
+              value={formData.apply_link}
+              onChange={(e) =>
+                setFormData({ ...formData, apply_link: e.target.value })
+              }
+            />
+            <input
+              className="second-input"
+
+              type="text"
+              placeholder="Image Link"
+              value={formData.image_link}
+              onChange={(e) =>
+                setFormData({ ...formData, image_link: e.target.value })
+              }
+            />
+            <input
+              className="second-input"
+
+              type="text"
+              placeholder="url"
+              value={formData.url}
+              onChange={(e) =>
+                setFormData({ ...formData, url: e.target.value })
+              }
+            />
+            <button type="submit" className="button">
+              {editJobId ? "Update Job" : "Add Job"}
+            </button>
+          </div>
+        </div>
       </form>
 
-      <h2>Job List</h2>
-      <ul>
-        {jobs.map((job) => (
-          <li key={job.id}>
-            <h1>{job.companyname}</h1>
-            <h3>{job.title}</h3>
-            <p>{job.description}</p>
-            <p>{job.url}</p>
-            <button onClick={() => handleEdit(job)}>Edit</button>
-            <button onClick={() => handleDelete(job.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <h2 className="job-list-name">Job List</h2>
+      <div className="job-list-container">
+        <ul className="job-list">
+          {jobs.map((job) => {
+            const descriptionPoints = job.description
+              ? job.description.split(",").map((point) => point.trim())
+              : [];
+
+            return (
+              <div key={job.id} className="job-card">
+                <h1 className="company-card-name">{job.companyname}</h1>
+                <h3>{job.title}</h3>
+                <ul className="descriptions-details-side">
+                  {descriptionPoints.map((point, index) => (
+                    <li key={index}>{point}</li>
+                  ))}
+                </ul>
+                <p>{job.url}</p>
+                <div className="button-container">
+                  <button className="button add-edit-button" onClick={() => handleEdit(job)}>Edit</button>
+                  <button className="button add-edit-button" onClick={() => handleDelete(job.id)}>Delete</button>
+
+                </div>
+              </div>
+            );
+          })}
+        </ul>
+
+      </div>
     </div>
   );
 };
