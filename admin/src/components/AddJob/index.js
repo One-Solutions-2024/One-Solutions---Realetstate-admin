@@ -101,8 +101,7 @@ const AdminPanel = () => {
   return (
     <div className="admin-container">
       <h1 className="admin-name">Admin Panel</h1>
-      {loading && <div>Loading...</div>}
-      {error && <div>Error: {error}</div>}
+      
 
       <form onSubmit={handleSubmit}>
         <div className="submit-container">
@@ -171,7 +170,13 @@ const AdminPanel = () => {
       </form>
 
       <h2 className="job-list-name">Job List</h2>
+      <div className="loader-container">
+      {loading && <div class="loader"></div>}
+      {error && <div>Error: {error}</div>}
+      </div>
+      
       <div className="job-list-container">
+      
         <ul className="job-list">
           {jobs.map((job) => {
             const descriptionPoints = job.description
