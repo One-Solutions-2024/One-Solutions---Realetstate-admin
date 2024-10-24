@@ -20,7 +20,7 @@ const AdminPanel = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://backend-dvwo.onrender.com/api/jobs");
+      const response = await fetch("https://backend-vtwx.onrender.com/api/jobs");
       if (!response.ok) throw new Error("Failed to fetch jobs");
       const data = await response.json();
       setJobs(data);
@@ -40,8 +40,8 @@ const AdminPanel = () => {
     e.preventDefault();
 
     const url = editJobId
-      ? `https://backend-dvwo.onrender.com/api/jobs/${editJobId}`
-      : "https://backend-dvwo.onrender.com/api/jobs";
+      ? `https://backend-vtwx.onrender.com/api/jobs/${editJobId}`
+      : "https://backend-vtwx.onrender.com/api/jobs";
     const method = editJobId ? "PUT" : "POST";
 
     const response = await fetch(url, {
@@ -71,7 +71,7 @@ const AdminPanel = () => {
 
   // Delete job
   const handleDelete = async (id) => {
-    const response = await fetch(`https://backend-dvwo.onrender.com/api/jobs/${id}`, {
+    const response = await fetch(`https://backend-vtwx.onrender.com/api/jobs/${id}`, {
       method: "DELETE",
     });
     if (response.ok) {
