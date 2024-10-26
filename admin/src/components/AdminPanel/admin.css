@@ -10,6 +10,7 @@ body {
   height: auto;
   padding-bottom: 20px;
 }
+
 .admin-header {
   display: flex;
   align-items: center;
@@ -69,25 +70,30 @@ body {
   border-radius: 12px;
   transition: background-color 0.3s ease-in-out;
   width: 30%;
-  color: #fff; /* Text color for input text */
+  color: #fff;
+  /* Text color for input text */
 }
 
 /* Placeholder text color */
 .first-input::placeholder {
-  color: #fff; /* White placeholder text */
-  opacity: 1; /* Ensure opacity is 100% for visibility */
+  color: #fff;
+  /* White placeholder text */
+  opacity: 1;
+  /* Ensure opacity is 100% for visibility */
 }
 
 .first-input:focus-within {
-  background-color: #fff; 
+  background-color: #fff;
   border-color: #aaa;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  color: #000; /* Text color: black on focus */
+  color: #000;
+  /* Text color: black on focus */
 }
 
 /* Change placeholder text color when focused, if needed */
 .first-input:focus::placeholder {
-  color: #000; /* Placeholder text color turns black when focused */
+  color: #000;
+  /* Placeholder text color turns black when focused */
 }
 
 
@@ -98,25 +104,30 @@ body {
   border-radius: 12px;
   transition: background-color 0.3s ease-in-out;
   width: 30%;
-  color: #fff; /* Text color for input text */
+  color: #fff;
+  /* Text color for input text */
 }
 
 /* Placeholder text color */
 .second-input::placeholder {
-  color: #fff; /* White placeholder text */
-  opacity: 1; /* Ensure opacity is 100% for visibility */
+  color: #fff;
+  /* White placeholder text */
+  opacity: 1;
+  /* Ensure opacity is 100% for visibility */
 }
 
 .second-input:focus-within {
-  background-color: #ffffff; 
+  background-color: #ffffff;
   border-color: #aaa;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  color: #000; /* Text color: black on focus */
+  color: #000;
+  /* Text color: black on focus */
 }
 
 /* Change placeholder text color when focused, if needed */
 .second-input:focus::placeholder {
-  color: #000; /* Placeholder text color turns black when focused */
+  color: #000;
+  /* Placeholder text color turns black when focused */
 }
 
 
@@ -162,7 +173,7 @@ input {
   margin-bottom: 20px;
 }
 
-.error-clor{
+.error-clor {
   color: red;
 
 }
@@ -277,7 +288,8 @@ input {
   position: fixed;
   top: 20px;
   right: 20px;
-  background-color: #4caf50; /* Success green */
+  background-color: #4caf50;
+  /* Success green */
   color: white;
   padding: 15px;
   border-radius: 5px;
@@ -288,7 +300,8 @@ input {
 }
 
 .notification-popup.error {
-  background-color: #f44336; /* Error red */
+  background-color: #f44336;
+  /* Error red */
 }
 
 
@@ -315,5 +328,16 @@ input {
     /* Ensure the job card width takes the full width */
     margin-left: 5%;
     margin-right: 5%;
+  }
+
+  .logout-button {
+    margin-right: -40px;
+    height: 25px;
+    width: 70px;
+    font-size: 12px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
