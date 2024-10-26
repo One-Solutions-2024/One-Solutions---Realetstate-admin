@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./admin.css"
+import { useNavigate } from "react-router-dom"; // Updated
+import "./admin.css";
 
 const AdminPanel = () => {
   const [jobs, setJobs] = useState([]);
@@ -14,14 +15,34 @@ const AdminPanel = () => {
   const [editJobId, setEditJobId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [notification, setNotification] = useState("");  // New state for notification
+  const [notification, setNotification] = useState("");
+  const navigate = useNavigate(); // Updated
 
-  // Fetch jobs
+
+  // Verify if token exists for authentication
+  const checkAuthentication = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login"); // Updated
+    }
+  };
+
+  useEffect(() => {
+    checkAuthentication(); // Check if logged in
+    fetchJobs();
+  }, []);
+
+  // Fetch jobs with token
   const fetchJobs = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://backend-vtwx.onrender.com/api/jobs");
+      const token = localStorage.getItem("token");
+      const response = await fetch("https://backend-vtwx.onrender.com/api/jobs/adminpanel", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) throw new Error("Failed to fetch jobs");
       const data = await response.json();
       setJobs(data);
@@ -32,14 +53,10 @@ const AdminPanel = () => {
     }
   };
 
-  useEffect(() => {
-    fetchJobs();
-  }, []);
-
   // Add or Update job
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const token = localStorage.getItem("token");
     const url = editJobId
       ? `https://backend-vtwx.onrender.com/api/jobs/${editJobId}`
       : "https://backend-vtwx.onrender.com/api/jobs";
@@ -49,13 +66,14 @@ const AdminPanel = () => {
       method,
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(formData),
     });
 
     if (response.ok) {
-      fetchJobs(); // Refresh job list
-      setEditJobId(null); // Reset form
+      fetchJobs();
+      setEditJobId(null);
       setFormData({
         companyname: "",
         title: "",
@@ -65,7 +83,7 @@ const AdminPanel = () => {
         url: "",
       });
       setNotification(editJobId ? "Successfully updated the job!" : "Successfully added the job!");
-      setTimeout(() => setNotification(""), 3000);  // Hide notification after 3 seconds
+      setTimeout(() => setNotification(""), 3000);
     } else {
       const errorMessage = await response.text();
       setError(`Error: ${errorMessage}`);
@@ -74,13 +92,17 @@ const AdminPanel = () => {
 
   // Delete job
   const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
     const response = await fetch(`https://backend-vtwx.onrender.com/api/jobs/${id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (response.ok) {
       fetchJobs();
-      setNotification("Successfully deleted the job!");  // Set delete notification
-      setTimeout(() => setNotification(""), 3000);  // Hide notification after 3 seconds
+      setNotification("Successfully deleted the job!");
+      setTimeout(() => setNotification(""), 3000);
     } else {
       const errorMessage = await response.text();
       setError(`Error: ${errorMessage}`);
@@ -100,11 +122,17 @@ const AdminPanel = () => {
     });
   };
 
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login"); // Updated
+  };
+
   return (
     <div className="admin-container">
       <h1 className="admin-name">Admin Panel</h1>
+      <button onClick={handleLogout} className="logout-button">Logout</button>
 
-      {/* Notification popup */}
       {notification && <div className="notification-popup">{notification}</div>}
 
       <form onSubmit={handleSubmit}>
@@ -168,13 +196,11 @@ const AdminPanel = () => {
           </div>
         </div>
       </form>
-
       <h2 className="job-list-name">Job List</h2>
       <div className="loader-container">
         {loading && <div className="loader"></div>}
         {error && <div className="error-clor">Error: {error}</div>}
       </div>
-
       <div className="job-list-container">
         <ul className="job-list">
           {jobs.map((job) => {
@@ -201,6 +227,9 @@ const AdminPanel = () => {
           })}
         </ul>
       </div>
+
+
+      {/* Job listing section */}
     </div>
   );
 };
