@@ -106,8 +106,7 @@
 }
 @media (max-width: 480px) {
     .login-container{
-      height: 80vh;
-
+      height: 95vh;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -115,10 +114,13 @@
    
     .input-group input {
         font-size: 0.85em; /* Further reduce font size on very small screens */
+        padding: 15px;
+        
     }
 
     .button-login {
-        height: 40px; /* Slightly smaller button height */
+        height: 50px; /* Slightly smaller button height */
+
     }
 
     .error,
