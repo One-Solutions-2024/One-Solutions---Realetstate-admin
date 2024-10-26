@@ -10,7 +10,6 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Clear credentials and check if already logged in
   useEffect(() => {
     setUsername("");
     setPassword("");
@@ -23,7 +22,6 @@ const Login = () => {
     setError(null);
     setSuccessMessage(null);
 
-    // Validate fields
     if (!username || !password) {
       setError("All fields are required");
       return;
@@ -46,7 +44,6 @@ const Login = () => {
       localStorage.setItem("token", data.token);
       setSuccessMessage("Login successful!");
 
-      // Wait briefly for success message, then navigate to admin
       setTimeout(() => navigate("/admin"), 1000);
     } catch (err) {
       setError(err.message);
@@ -58,8 +55,8 @@ const Login = () => {
   return (
     <div className="login-container">
       <img src="https://res.cloudinary.com/dsjcty43b/image/upload/v1729929976/login-image_piuwue.png" alt="Login" className="login-image"/>
-      <h2>Admin Login</h2>
       <form onSubmit={handleLogin} className="login-form">
+        <h2>Admin Login</h2>
         <div className="input-group">
           <input
             type="text"
@@ -80,8 +77,8 @@ const Login = () => {
           {loading ? <span className="loader-login"></span> : "Login"}
         </button>
         <div className="message-container">
-          {error && <div className="error">{error}</div>}
-          {successMessage && <div className="success">{successMessage}</div>}
+          {error && <div className="error fade-in">{error}</div>}
+          {successMessage && <div className="success fade-in">{successMessage}</div>}
         </div>
       </form>
     </div>
