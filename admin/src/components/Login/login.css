@@ -106,7 +106,7 @@
 }
 @media (max-width: 480px) {
     .login-container{
-      height: 95vh;
+      height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
