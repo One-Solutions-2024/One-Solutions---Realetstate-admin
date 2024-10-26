@@ -130,8 +130,10 @@ const AdminPanel = () => {
 
   return (
     <div className="admin-container">
-      <h1 className="admin-name">Admin Panel</h1>
-      <button onClick={handleLogout} className="logout-button">Logout</button>
+      <div className="admin-header">
+  <h1 className="admin-name">Admin Panel</h1>
+  <button onClick={handleLogout} className="button logout-button">Logout</button>
+</div>
 
       {notification && <div className="notification-popup">{notification}</div>}
 

@@ -1,0 +1,106 @@
+/* Main container styling */
+.login-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-size: cover;
+    background-image: url("https://res.cloudinary.com/dsjcty43b/image/upload/v1729930980/pexels-photo-346529_ctyew9.webp");
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Login form styling */
+.login-form {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    display: inline-block;
+    width: 300px;
+}
+
+/* Input styling */
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1em;
+    outline: none;
+    text-indent: 10px;
+}
+
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Login button styling */
+.button-login {
+    padding: 10px;
+    height: 45px;
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    color: #ffffff;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #080cec;
+    margin-bottom: 10px;
+}
+
+.button-login:hover {
+    background-color: #3b3ee0;
+    transition: 0.2s;
+}
+
+/* Center the spinner within the button */
+.button-login {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Loader spinner */
+.loader {
+    border: 2px solid #f3f3f3; /* Light grey */
+    border-top: 2px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Fixed height for message container */
+.message-container {
+    height: 20px; /* Adjust height as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* Error and success message styling */
+.error {
+    color: red;
+    font-size: 0.9rem;
+}
+
+.success {
+    color: green;
+    font-size: 0.9rem;
+}

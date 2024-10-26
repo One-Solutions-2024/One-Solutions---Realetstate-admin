@@ -10,6 +10,39 @@ body {
   height: auto;
   padding-bottom: 20px;
 }
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px 50px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Center-align the admin name */
+.admin-name {
+  flex: 1;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/* Align the logout button to the right */
+.logout-button {
+  font-size: 1em;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #ff4c4c;
+  color: white;
+  border: none;
+}
+
+.logout-button:hover {
+  background-color: #ff1a1a;
+}
+
 
 .admin-name {
   padding-top: 20px;
