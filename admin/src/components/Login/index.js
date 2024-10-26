@@ -60,7 +60,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <div>
-        <img src="https://res.cloudinary.com/dsjcty43b/image/upload/v1729929976/login-image_piuwue.png" alt="Login Illustration" />
+        <img src="https://res.cloudinary.com/dsjcty43b/image/upload/v1729929976/login-image_piuwue.png" alt="Login Image" className="login-image"/>
       </div>
       <div>
         <h2>Admin Login</h2>

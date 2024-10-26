@@ -104,3 +104,23 @@
     color: green;
     font-size: 0.9rem;
 }
+@media (max-width: 480px) {
+    .login-container{
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 50%;
+    }
+   
+    .input-group input {
+        font-size: 0.85em; /* Further reduce font size on very small screens */
+    }
+
+    .button-login {
+        height: 40px; /* Slightly smaller button height */
+    }
+
+    .error,
+    .success {
+        font-size: 0.8rem; /* Smaller font for messages */
+    }
+}
