@@ -102,6 +102,8 @@ const AdminPanel = () => {
         fetchJobs();
         resetForm();
         setNotification(editJobId ? "Successfully updated the job!" : "Successfully added the job!");
+        setTimeout(() => setNotification(""), 3000);
+ 
       } else {
         const errorMessage = await response.text();
         setError(`Error: ${errorMessage}`);
@@ -137,6 +139,8 @@ const AdminPanel = () => {
       if (response.ok) {
         fetchJobs();
         setNotification("Successfully deleted the job!");
+        setTimeout(() => setNotification(""), 3000);
+ 
       } else {
         const errorMessage = await response.text();
         setError(`Error: ${errorMessage}`);
