@@ -10,20 +10,16 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Clear credentials on component mount
+  // Clear credentials and check if already logged in
   useEffect(() => {
     setUsername("");
     setPassword("");
     const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/admin"); // Redirect if token exists
-    }
+    if (token) navigate("/admin"); // Redirect if token exists
   }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    // Clear error and success messages on new login attempt
     setError(null);
     setSuccessMessage(null);
 
@@ -33,7 +29,7 @@ const Login = () => {
       return;
     }
 
-    setLoading(true); // Set loading to true on login attempt
+    setLoading(true);
 
     try {
       const response = await fetch("https://backend-vtwx.onrender.com/api/login", {
@@ -47,51 +43,47 @@ const Login = () => {
       if (!response.ok) throw new Error("Login failed");
 
       const data = await response.json();
-      localStorage.setItem("token", data.token); // Store token in localStorage
+      localStorage.setItem("token", data.token);
       setSuccessMessage("Login successful!");
-      setTimeout(() => navigate("/admin"), 1500); // Redirect to admin panel
+
+      // Wait briefly for success message, then navigate to admin
+      setTimeout(() => navigate("/admin"), 1000);
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false); // Set loading to false when login completes
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-container">
-      <div>
-        <img src="https://res.cloudinary.com/dsjcty43b/image/upload/v1729929976/login-image_piuwue.png" alt="Login Image" className="login-image"/>
-      </div>
-      <div>
-        <h2>Admin Login</h2>
-        <form onSubmit={handleLogin} className="login-form">
-          <div className="input-group">
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          <button className="button-login" type="submit" disabled={loading}>
-            {loading ? <span className="loader-login"></span> : "Login"}
-          </button>
-          
-          <div className="message-container">
-            {error && <div className="error">{error}</div>}
-            {successMessage && <div className="success">{successMessage}</div>}
-          </div>
-        </form>
-      </div>
+      <img src="https://res.cloudinary.com/dsjcty43b/image/upload/v1729929976/login-image_piuwue.png" alt="Login" className="login-image"/>
+      <h2>Admin Login</h2>
+      <form onSubmit={handleLogin} className="login-form">
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className="input-group">
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button className="button-login" type="submit" disabled={loading}>
+          {loading ? <span className="loader-login"></span> : "Login"}
+        </button>
+        <div className="message-container">
+          {error && <div className="error">{error}</div>}
+          {successMessage && <div className="success">{successMessage}</div>}
+        </div>
+      </form>
     </div>
   );
 };
