@@ -108,7 +108,7 @@
     .login-container{
         display: flex;
         flex-direction: column;
-        padding-bottom: 50%;
+        justify-content: space-between;
     }
    
     .input-group input {
@@ -123,6 +123,13 @@
     .success {
         font-size: 0.8rem; /* Smaller font for messages */
     }
+
+    .login-form{
+        border-top-left-radius: 35px;
+        border-top-right-radius: 35px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
 }
 
 /* General styles */
@@ -130,6 +137,7 @@
   .login-form {
     width: 100%;
     max-width: 400px;
+
   }
   
   .message-container {
