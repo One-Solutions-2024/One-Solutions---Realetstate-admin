@@ -341,3 +341,50 @@ input {
     align-items: center;
   }
 }
+
+/* Style for the pagination container */
+.pagination {
+  display: flex;
+  justify-content: center;
+  /* Horizontally centers the buttons */
+  align-items: center;
+  /* Vertically centers the buttons */
+  margin: 20px 0;
+  width: 100%;
+  /* Ensures the container spans the full width */
+}
+
+/* Style for each pagination button */
+.pagination-button {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  /* Add some border to make buttons visible */
+  margin: 0 5px;
+  /* Space between buttons */
+  cursor: pointer;
+  color: #fff;
+  /* Default color */
+  border-radius: 50%;
+  /* Make buttons circular */
+  font-size: 16px;
+  padding: 10px 15px;
+  /* Add padding to ensure good sizing */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* When the pagination button is active (selected page), change background and text color */
+.pagination-button.active {
+  background-color: blue;
+  /* Blue background for active page */
+  color: #fff;
+
+  /* White text for the active page */
+  border-color: blue;
+  /* Optional: border matches the background */
+}
+
+/* Hover effect for pagination buttons */
+.pagination-button:hover {
+  background-color: lightgray;
+  color: #000;
+}

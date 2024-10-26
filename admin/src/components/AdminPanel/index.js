@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Updated
+import { useNavigate } from "react-router-dom"; 
 import "./admin.css";
 
 const AdminPanel = () => {
   const [jobs, setJobs] = useState([]);
+  const [filteredJobs, setFilteredJobs] = useState([]);
   const [formData, setFormData] = useState({
     companyname: "",
     title: "",
@@ -12,23 +13,28 @@ const AdminPanel = () => {
     image_link: "",
     url: "",
   });
+
   const [editJobId, setEditJobId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [notification, setNotification] = useState("");
-  const navigate = useNavigate(); // Updated
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  
+  const navigate = useNavigate();
 
+  const jobsPerPage = 8;
 
   // Verify if token exists for authentication
   const checkAuthentication = () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      navigate("/login"); // Updated
+      navigate("/login");
     }
   };
 
   useEffect(() => {
-    checkAuthentication(); // Check if logged in
+    checkAuthentication(); 
     fetchJobs();
   }, []);
 
@@ -46,6 +52,8 @@ const AdminPanel = () => {
       if (!response.ok) throw new Error("Failed to fetch jobs");
       const data = await response.json();
       setJobs(data);
+      setFilteredJobs(data);
+      setTotalPages(Math.ceil(data.length / jobsPerPage));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -53,59 +61,88 @@ const AdminPanel = () => {
     }
   };
 
+  // Filter jobs based on search query
+  useEffect(() => {
+    const filtered = jobs.filter(job => 
+      job.companyname.toLowerCase().includes(formData.companyname.toLowerCase()) ||
+      job.title.toLowerCase().includes(formData.title.toLowerCase()) ||
+      job.description.toLowerCase().includes(formData.description.toLowerCase())
+    );
+
+    setFilteredJobs(filtered);
+    setTotalPages(Math.ceil(filtered.length / jobsPerPage));
+    setCurrentPage(1); // Reset to first page when filtering
+  }, [formData, jobs]);
+
   // Add or Update job
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.companyname || !formData.title) {
+      setError("Company name and title are required.");
+      return;
+    }
+
     const token = localStorage.getItem("token");
     const url = editJobId
       ? `https://backend-vtwx.onrender.com/api/jobs/${editJobId}`
       : "https://backend-vtwx.onrender.com/api/jobs";
     const method = editJobId ? "PUT" : "POST";
 
-    const response = await fetch(url, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (response.ok) {
-      fetchJobs();
-      setEditJobId(null);
-      setFormData({
-        companyname: "",
-        title: "",
-        description: "",
-        apply_link: "",
-        image_link: "",
-        url: "",
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
       });
-      setNotification(editJobId ? "Successfully updated the job!" : "Successfully added the job!");
-      setTimeout(() => setNotification(""), 3000);
-    } else {
-      const errorMessage = await response.text();
-      setError(`Error: ${errorMessage}`);
+
+      if (response.ok) {
+        fetchJobs();
+        resetForm();
+        setNotification(editJobId ? "Successfully updated the job!" : "Successfully added the job!");
+      } else {
+        const errorMessage = await response.text();
+        setError(`Error: ${errorMessage}`);
+      }
+    } catch (err) {
+      setError(`Error: ${err.message}`);
     }
+  };
+
+  const resetForm = () => {
+    setEditJobId(null);
+    setFormData({
+      companyname: "",
+      title: "",
+      description: "",
+      apply_link: "",
+      image_link: "",
+      url: "",
+    });
+    setNotification("");
   };
 
   // Delete job
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`https://backend-vtwx.onrender.com/api/jobs/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (response.ok) {
-      fetchJobs();
-      setNotification("Successfully deleted the job!");
-      setTimeout(() => setNotification(""), 3000);
-    } else {
-      const errorMessage = await response.text();
-      setError(`Error: ${errorMessage}`);
+    try {
+      const response = await fetch(`https://backend-vtwx.onrender.com/api/jobs/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        fetchJobs();
+        setNotification("Successfully deleted the job!");
+      } else {
+        const errorMessage = await response.text();
+        setError(`Error: ${errorMessage}`);
+      }
+    } catch (err) {
+      setError(`Error: ${err.message}`);
     }
   };
 
@@ -122,20 +159,28 @@ const AdminPanel = () => {
     });
   };
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   // Logout function
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login"); // Updated
+    navigate("/login");
   };
+
+  // Determine which jobs to display based on pagination
+  const paginatedJobs = filteredJobs.slice((currentPage - 1) * jobsPerPage, currentPage * jobsPerPage);
 
   return (
     <div className="admin-container">
       <div className="admin-header">
-  <h1 className="admin-name">Admin Panel</h1>
-  <button onClick={handleLogout} className="logout-button">Logout</button>
-</div>
+        <h1 className="admin-name">Admin Panel</h1>
+        <button onClick={handleLogout} className="logout-button">Logout</button>
+      </div>
 
       {notification && <div className="notification-popup">{notification}</div>}
+      {error && <div className="error-clor">Error: {error}</div>}
 
       <form onSubmit={handleSubmit}>
         <div className="submit-container">
@@ -161,36 +206,28 @@ const AdminPanel = () => {
               className="second-input description"
               placeholder="Description Ex:Bachelor's Degree/Master's Degree#         2021/2022/2023/2024#"
               value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             />
             <input
               className="second-input"
               type="text"
               placeholder="Apply Link"
               value={formData.apply_link}
-              onChange={(e) =>
-                setFormData({ ...formData, apply_link: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, apply_link: e.target.value })}
             />
             <input
               className="second-input"
               type="text"
               placeholder="Image Link"
               value={formData.image_link}
-              onChange={(e) =>
-                setFormData({ ...formData, image_link: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, image_link: e.target.value })}
             />
             <input
               className="second-input"
               type="text"
-              placeholder="url"
+              placeholder="URL"
               value={formData.url}
-              onChange={(e) =>
-                setFormData({ ...formData, url: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, url: e.target.value })}
             />
             <button type="submit" className="button">
               {editJobId ? "Update Job" : "Add Job"}
@@ -198,14 +235,14 @@ const AdminPanel = () => {
           </div>
         </div>
       </form>
+
       <h2 className="job-list-name">Job List</h2>
       <div className="loader-container">
         {loading && <div className="loader"></div>}
-        {error && <div className="error-clor">Error: {error}</div>}
       </div>
       <div className="job-list-container">
         <ul className="job-list">
-          {jobs.map((job) => {
+          {paginatedJobs.map((job) => {
             const descriptionPoints = job.description
               ? job.description.split("#").map((point) => point.trim())
               : [];
@@ -230,8 +267,17 @@ const AdminPanel = () => {
         </ul>
       </div>
 
-
-      {/* Job listing section */}
+      <div className='pagination'>
+        {[...Array(totalPages).keys()].map((pageNum) => (
+          <button
+            key={pageNum}
+            className={`pagination-button ${currentPage === pageNum + 1 ? 'active' : ''}`}
+            onClick={() => handlePageChange(pageNum + 1)}
+          >
+            {pageNum + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

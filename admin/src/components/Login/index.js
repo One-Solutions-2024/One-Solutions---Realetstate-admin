@@ -83,7 +83,7 @@ const Login = () => {
           </div>
 
           <button className="button-login" type="submit" disabled={loading}>
-            {loading ? <span className="loader"></span> : "Login"}
+            {loading ? <span className="loader-login"></span> : "Login"}
           </button>
           
           <div className="message-container">
