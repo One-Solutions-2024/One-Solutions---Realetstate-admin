@@ -46,7 +46,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <img src="https://res.cloudinary.com/dsjcty43b/image/upload/v1729929976/login-image_piuwue.png" alt="Login" className="login-image"/>
+      <img src="https://www.foundit.in/rio/public/images/login-illustration.png" alt="Login" className="login-image"/>
 
       <form onSubmit={handleLogin} className="login-form">
         <h2>Admin Login</h2>
