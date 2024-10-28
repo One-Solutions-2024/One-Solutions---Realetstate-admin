@@ -34,7 +34,7 @@ const Login = () => {
       setSuccessMessage("Login successful!");
       navigate("/admin");
     } catch (err) {
-      setError(err.message || "Login failed");
+      setError(err = "You're Offline" || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -46,8 +46,10 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <img src="https://www.foundit.in/rio/public/images/login-illustration.png" alt="Login" className="login-image"/>
+<div className="image-container">
+<img src="https://www.foundit.in/rio/public/images/login-illustration.png" alt="Login" className="login-image"/>
 
+</div>
       <form onSubmit={handleLogin} className="login-form">
         <h2>Admin Login</h2>
         <div className="input-group">
