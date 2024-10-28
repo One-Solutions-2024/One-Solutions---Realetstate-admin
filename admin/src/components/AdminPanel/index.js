@@ -51,30 +51,8 @@ const AdminPanel = () => {
     }
   };
 
-  // Filter jobs based on search query
-  useEffect(() => {
-    const filtered = jobs.filter(job => 
-      job.companyname.toLowerCase().includes(formData.companyname.toLowerCase()) ||
-      job.title.toLowerCase().includes(formData.title.toLowerCase()) ||
-      job.description.toLowerCase().includes(formData.description.toLowerCase())
-    );
-
-    setFilteredJobs(filtered);
-    setTotalPages(Math.ceil(filtered.length / jobsPerPage));
-    setCurrentPage(1); // Reset to first page when filtering
-  }, [formData, jobs]);
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate form fields
-    if (!formData.companyname || !formData.title || !formData.description || !formData.apply_link || !formData.image_link || !formData.url) {
-      setNotification("All fields are required!");
-      setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
-      return; // Exit the function if validation fails
-    }
-
     const token = localStorage.getItem("token");
     const url = editJobId
       ? `https://backend-vtwx.onrender.com/api/jobs/${editJobId}`
@@ -163,107 +141,32 @@ const AdminPanel = () => {
           Logout
         </button>
       </div>
-      {notification && (
-        <div className={`notification-popup ${notification === "All fields are required!" ? "error" : ""}`}>
-          {notification}
-        </div>
-      )}
+      {notification && <div className="notification-popup">{notification}</div>}
       {error && <div className="error">Error: {error}</div>}
       
       <form onSubmit={handleSubmit}>
-        <div className="submit-container">
-          <div className="first-input-container">
-            <input
-              className="first-input companyname"
-              type="text"
-              placeholder="Company Name"
-              value={formData.companyname}
-              onChange={(e) => setFormData({ ...formData, companyname: e.target.value })}
-            />
-            <input
-              className="first-input title"
-              type="text"
-              placeholder="Company Title/Role"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            />
-          </div>
-
-          <div className="second-input-container">
-            <textarea
-              className="second-input description"
-              placeholder="Description Ex:Bachelor's Degree/Master's Degree#         2021/2022/2023/2024#"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            />
-            <input
-              className="second-input"
-              type="text"
-              placeholder="Apply Link"
-              value={formData.apply_link}
-              onChange={(e) => setFormData({ ...formData, apply_link: e.target.value })}
-            />
-            <input
-              className="second-input"
-              type="text"
-              placeholder="Image Link"
-              value={formData.image_link}
-              onChange={(e) => setFormData({ ...formData, image_link: e.target.value })}
-            />
-            <input
-              className="second-input"
-              type="text"
-              placeholder="URL"
-              value={formData.url}
-              onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-            />
-            <button type="submit" className="button">
-              {editJobId ? "Update Job" : "Add Job"}
-            </button>
-          </div>
-        </div>
+        {/* Form Fields */}
+        <button type="submit">{editJobId ? "Update Job" : "Add Job"}</button>
       </form>
 
-      <h2 className="job-list-name">Job List</h2>
-      <div className="loader-container">
-        {loading && <div className="loader"></div>}
-      </div>
+      <h2 className="job-list-title">Job List</h2>
+      {loading && <div className="loader"></div>}
       
-      <div className="job-list-container">
-        <ul className="job-list">
-          {paginatedJobs.map((job) => {
-            const descriptionPoints = job.description
-              ? job.description.split("#").map((point) => point.trim())
-              : [];
-
-            return (
-              <div key={job.id} className="job-card">
-                <h1 className="company-card-name">{job.companyname}</h1>
-                <h3>{job.title}</h3>
-                <ul className="descriptions-details-side">
-                  {descriptionPoints.map((point, index) => (
-                    <li className="list-class" key={index}>{point}</li>
-                  ))}
-                </ul>
-                <p>{job.url}</p>
-                <div className="button-container">
-                  <button className="button add-edit-button" onClick={() => handleEdit(job)}>Edit</button>
-                  <button className="button add-edit-button" onClick={() => handleDelete(job.id)}>Delete</button>
-                </div>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
+      <ul className="job-list">
+        {paginatedJobs.map((job) => (
+          <li key={job.id}>
+            <h3>{job.companyname} - {job.title}</h3>
+            <p>{job.description}</p>
+            <button onClick={() => handleEdit(job)}>Edit</button>
+            <button onClick={() => handleDelete(job.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
 
       <div className="pagination">
-        {[...Array(totalPages).keys()].map((pageNum) => (
-          <button
-            key={pageNum}
-            className={`pagination-button ${currentPage === pageNum + 1 ? 'active' : ''}`}
-            onClick={() => handlePageChange(pageNum + 1)}
-          >
-            {pageNum + 1}
+        {[...Array(totalPages)].map((_, i) => (
+          <button key={i} onClick={() => handlePageChange(i + 1)}>
+            {i + 1}
           </button>
         ))}
       </div>
