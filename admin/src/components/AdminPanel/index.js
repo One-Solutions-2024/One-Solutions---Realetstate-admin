@@ -162,6 +162,9 @@ const AdminPanel = () => {
         <button onClick={() => localStorage.removeItem("token") || navigate("/login")} className="logout-button">
           Logout
         </button>
+        <div onClick={() => localStorage.removeItem("token") || navigate("/login")} className="logout-icon">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        </div>
       </div>
       {notification && (
         <div className={`notification-popup ${notification === "All fields are required!" ? "error" : ""}`}>

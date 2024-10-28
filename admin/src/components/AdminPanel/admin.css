@@ -306,6 +306,9 @@ input {
   /* Error red */
 }
 
+.logout-icon{
+  display: none;
+}
 
 
 /* Mobile styles */
@@ -333,14 +336,12 @@ input {
   }
 
   .logout-button {
-    margin-right: -40px;
-    height: 25px;
-    width: 70px;
-    font-size: 12px;
-
+   display: none;
+  }
+  .logout-icon{
     display: flex;
-    justify-content: center;
-    align-items: center;
+    color: #fff;
+    font-size: 30px;
   }
 }
 
