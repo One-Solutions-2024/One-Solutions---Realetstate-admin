@@ -53,7 +53,7 @@ const AdminPanel = () => {
 
   // Filter jobs based on search query
   useEffect(() => {
-    const filtered = jobs.filter(job => 
+    const filtered = jobs.filter(job =>
       job.companyname.toLowerCase().includes(formData.companyname.toLowerCase()) ||
       job.title.toLowerCase().includes(formData.title.toLowerCase()) ||
       job.description.toLowerCase().includes(formData.description.toLowerCase())
@@ -163,7 +163,7 @@ const AdminPanel = () => {
           Logout
         </button>
         <div onClick={() => localStorage.removeItem("token") || navigate("/login")} className="logout-icon">
-        <i class="fa-solid fa-right-from-bracket"></i>
+          <i class="fa-solid fa-right-from-bracket"></i>
         </div>
       </div>
       {notification && (
@@ -172,7 +172,7 @@ const AdminPanel = () => {
         </div>
       )}
       {error && <div className="error">Error: {error}</div>}
-      
+
       <form onSubmit={handleSubmit}>
         <div className="submit-container">
           <div className="first-input-container">
@@ -223,6 +223,10 @@ const AdminPanel = () => {
             <button type="submit" className="button">
               {editJobId ? "Update Job" : "Add Job"}
             </button>
+            {/* Add this button for navigating to the PopUp page */}
+            <button onClick={() => navigate("/popup")} className="navigate-popup-button">
+              Manage Popup
+            </button>
           </div>
         </div>
       </form>
@@ -231,7 +235,7 @@ const AdminPanel = () => {
       <div className="loader-container">
         {loading && <div className="loader"></div>}
       </div>
-      
+
       <div className="job-list-container">
         <ul className="job-list">
           {paginatedJobs.map((job) => {
