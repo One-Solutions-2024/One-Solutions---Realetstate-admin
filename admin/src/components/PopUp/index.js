@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './popup.css';
+import './popup.css'; // Optional CSS for styling
 import { useNavigate } from 'react-router-dom';
+
 
 const apiUrl = 'https://backend-vtwx.onrender.com/api/popup/adminpanel';
 
 const PopUp = () => {
+    const [popups, setPopups] = useState([]);
     const [popup, setPopup] = useState({
         id: null,
         popup_heading: '',
@@ -14,14 +16,15 @@ const PopUp = () => {
         popup_routing_link: '',
         popup_belowtext: '',
     });
-    const [notification, setNotification] = useState(''); // Notification state
+    const [notification, setNotification] = useState('');
     const navigate = useNavigate();
 
+
     useEffect(() => {
-        fetchPopup();
+        fetchPopups();
     }, []);
 
-    const fetchPopup = async () => {
+    const fetchPopups = async () => {
         const token = localStorage.getItem("token");
         try {
             const response = await axios.get(apiUrl, {
@@ -30,11 +33,10 @@ const PopUp = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            if (response.data) {
-                setPopup(response.data);
-            }
+            setPopups(response.data);
         } catch (error) {
-            console.error('Error fetching popup:', error);
+            console.error('Error fetching popups:', error);
+            setNotification('Error fetching popups');
         }
     };
 
@@ -60,56 +62,51 @@ const PopUp = () => {
                 },
             });
 
-            // Set success notification
-            setNotification(popup.id ? 'Popup successfully updated!' : 'Popup successfully saved!');
-
-            // Reset form data
-            setPopup({
-                id: null,
-                popup_heading: '',
-                popup_text: '',
-                popup_link: '',
-                popup_routing_link: '',
-                popup_belowtext: '',
-            });
-            fetchPopup();
-
-            // Clear the notification after 3 seconds
+            setNotification(popup.id ? 'Popup updated successfully!' : 'Popup created successfully!');
+            fetchPopups();
+            resetForm();
             setTimeout(() => setNotification(''), 3000);
         } catch (error) {
             console.error('Error saving popup:', error);
+            setNotification('Error saving popup');
         }
     };
 
-    const handleDelete = async () => {
+    const handleEdit = (popup) => {
+        setPopup(popup);
+    };
+
+    const handleDelete = async (id) => {
         const token = localStorage.getItem("token");
         try {
-            await axios.delete(`${apiUrl}/${popup.id}`, {
+            await axios.delete(`${apiUrl}/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
             });
-
-            setNotification('Popup successfully deleted!');
-            setPopup({
-                id: null,
-                popup_heading: '',
-                popup_text: '',
-                popup_link: '',
-                popup_routing_link: '',
-                popup_belowtext: '',
-            });
-            fetchPopup();
-
+            setNotification('Popup deleted successfully!');
+            fetchPopups();
             setTimeout(() => setNotification(''), 3000);
         } catch (error) {
             console.error('Error deleting popup:', error);
+            setNotification('Error deleting popup');
         }
     };
 
+    const resetForm = () => {
+        setPopup({
+            id: null,
+            popup_heading: '',
+            popup_text: '',
+            popup_link: '',
+            popup_routing_link: '',
+            popup_belowtext: '',
+        });
+    };
+
     return (
-        <div className="App">
+        <div className="admin-panel">
             <h1>Admin Popup Management</h1>
 
             {/* Notification message */}
@@ -154,21 +151,23 @@ const PopUp = () => {
                     onChange={handleChange}
                     required
                 />
-                <button type="submit">{popup.id ? 'Update' : 'Save'} Popup</button>
-                {popup.id && <button type="button" onClick={handleDelete}>Delete Popup</button>}
+                <button type="submit">{popup.id ? 'Update' : 'Create'} Popup</button>
             </form>
 
-            {popup.id && (
-                <div>
-                    <h2>Current Popup</h2>
-                    <p><strong>Heading:</strong> {popup.popup_heading}</p>
-                    <p><strong>Text:</strong> {popup.popup_text}</p>
-                    <p><strong>Image Link:</strong> {popup.popup_link}</p>
-                    <p><strong>Routing Link:</strong> {popup.popup_routing_link}</p>
-                    <p><strong>Below Text:</strong> {popup.popup_belowtext}</p>
-                </div>
-            )}
-
+            <h2>Existing Popups</h2>
+            <ul>
+                {popups.map((popup) => (
+                    <li key={popup.id}>
+                        <h3>{popup.popup_heading}</h3>
+                        <p>{popup.popup_text}</p>
+                        <p><strong>Image Link:</strong> {popup.popup_link}</p>
+                        <p><strong>Routing Link:</strong> {popup.popup_routing_link}</p>
+                        <p><strong>Below Text:</strong> {popup.popup_belowtext}</p>
+                        <button onClick={() => handleEdit(popup)}>Edit</button>
+                        <button onClick={() => handleDelete(popup.id)}>Delete</button>
+                    </li>
+                ))}
+            </ul>
             {/* Button for navigating back to Admin Panel */}
             <button onClick={() => navigate("/admin")} className="navigate-admin-button">
                 Back to Admin Panel

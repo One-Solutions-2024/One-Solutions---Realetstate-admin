@@ -12,6 +12,11 @@ const AdminPanel = () => {
     apply_link: "",
     image_link: "",
     url: "",
+    salary: "",
+    location: "",
+    job_type: "",
+    experience: "",
+    batch: "",
   });
   const [editJobId, setEditJobId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -113,6 +118,11 @@ const AdminPanel = () => {
       apply_link: "",
       image_link: "",
       url: "",
+      salary: "",
+    location: "",
+    job_type: "",
+    experience: "",
+    batch: "",
     });
     setNotification("");
   };
@@ -146,6 +156,11 @@ const AdminPanel = () => {
       apply_link: job.apply_link,
       image_link: job.image_link,
       url: job.url,
+      salary: job.salary,
+      location: job.loading,
+      job_type: job.job_type,
+      experience: job.experience,
+      batch: job.batch,
     });
   };
 
@@ -220,6 +235,48 @@ const AdminPanel = () => {
               value={formData.url}
               onChange={(e) => setFormData({ ...formData, url: e.target.value })}
             />
+
+<input
+              className="second-input"
+              type="text"
+              placeholder="salary"
+              value={formData.salary}
+              onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
+            />
+
+<input
+              className="second-input"
+              type="text"
+              placeholder="location"
+              value={formData.location}
+              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+            />
+
+<input
+              className="second-input"
+              type="text"
+              placeholder="job type"
+              value={formData.job_type}
+              onChange={(e) => setFormData({ ...formData, job_type: e.target.value })}
+            />
+
+<input
+              className="second-input"
+              type="text"
+              placeholder="experience"
+              value={formData.experience}
+              onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
+            />
+
+<input
+              className="second-input"
+              type="text"
+              placeholder="batch"
+              value={formData.batch}
+              onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
+            />
+
+
             <button type="submit" className="button">
               {editJobId ? "Update Job" : "Add Job"}
             </button>
@@ -253,6 +310,11 @@ const AdminPanel = () => {
                   ))}
                 </ul>
                 <p>{job.url}</p>
+                <p>{job.salary}</p>
+                <p>{job.location}</p>
+                <p>{job.job_type}</p>
+                <p>{job.experience}</p>
+                <p>{job.batch}</p>
                 <div className="button-container">
                   <button className="button add-edit-button" onClick={() => handleEdit(job)}>Edit</button>
                   <button className="button add-edit-button" onClick={() => handleDelete(job.id)}>Delete</button>
