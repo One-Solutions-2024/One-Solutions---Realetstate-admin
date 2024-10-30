@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './popup.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-const apiUrl = 'https://backend-vtwx.onrender.com/api/popup/adminpanel';
+const apiUrl = 'https://backend-vtwx.onrender.com/api/popup/adminpanel'; // Adjust this based on your API path
 
 const PopUp = () => {
     const [popup, setPopup] = useState({
@@ -14,20 +14,20 @@ const PopUp = () => {
         popup_routing_link: '',
         popup_belowtext: '',
     });
-    const [notification, setNotification] = useState(''); // Notification state
-    const navigate = useNavigate();
+    
+    const navigate = useNavigate(); // Initialize useNavigate
 
     useEffect(() => {
         fetchPopup();
     }, []);
 
     const fetchPopup = async () => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token"); // Retrieve the token here
         try {
             const response = await axios.get(apiUrl, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`, // Use the token
                 },
             });
             if (response.data) {
@@ -45,7 +45,7 @@ const PopUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token"); // Retrieve the token here
         try {
             const method = popup.id ? 'PUT' : 'POST';
             const url = popup.id ? `${apiUrl}/${popup.id}` : apiUrl;
@@ -56,12 +56,9 @@ const PopUp = () => {
                 data: popup,
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`, // Use the token
                 },
             });
-
-            // Set success notification
-            setNotification(popup.id ? 'Popup successfully updated!' : 'Popup successfully saved!');
 
             // Reset form data
             setPopup({
@@ -72,26 +69,22 @@ const PopUp = () => {
                 popup_routing_link: '',
                 popup_belowtext: '',
             });
-            fetchPopup();
-
-            // Clear the notification after 3 seconds
-            setTimeout(() => setNotification(''), 3000);
+            fetchPopup(); // Fetch the updated popup
         } catch (error) {
             console.error('Error saving popup:', error);
         }
     };
 
     const handleDelete = async () => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token"); // Retrieve the token here
         try {
             await axios.delete(`${apiUrl}/${popup.id}`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`, // Use the token
                 },
             });
-
-            setNotification('Popup successfully deleted!');
+            // Reset form data
             setPopup({
                 id: null,
                 popup_heading: '',
@@ -100,9 +93,7 @@ const PopUp = () => {
                 popup_routing_link: '',
                 popup_belowtext: '',
             });
-            fetchPopup();
-
-            setTimeout(() => setNotification(''), 3000);
+            fetchPopup(); // Refresh the popup state
         } catch (error) {
             console.error('Error deleting popup:', error);
         }
@@ -111,10 +102,6 @@ const PopUp = () => {
     return (
         <div className="App">
             <h1>Admin Popup Management</h1>
-
-            {/* Notification message */}
-            {notification && <div className="notification">{notification}</div>}
-
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -133,7 +120,7 @@ const PopUp = () => {
                 />
                 <input
                     type="text"
-                    name="popup_link"
+                    name="popup_Image_link"
                     placeholder="Popup Image Link"
                     value={popup.popup_link}
                     onChange={handleChange}
@@ -169,7 +156,7 @@ const PopUp = () => {
                 </div>
             )}
 
-            {/* Button for navigating back to Admin Panel */}
+            {/* Add this button for navigating back to Admin Panel */}
             <button onClick={() => navigate("/admin")} className="navigate-admin-button">
                 Back to Admin Panel
             </button>
