@@ -122,7 +122,7 @@ const PopUp = () => {
             </div>
 
 
-            {notification && <div className="notification">{notification}</div>}
+            {notification && <div className="notification-popup">{notification}</div>}
 
             <form onSubmit={handleSubmit} className='form-container-popup'>
                 <input
