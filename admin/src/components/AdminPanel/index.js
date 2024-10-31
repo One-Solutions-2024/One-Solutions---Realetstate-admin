@@ -119,10 +119,10 @@ const AdminPanel = () => {
       image_link: "",
       url: "",
       salary: "",
-    location: "",
-    job_type: "",
-    experience: "",
-    batch: "",
+      location: "",
+      job_type: "",
+      experience: "",
+      batch: "",
     });
     setNotification("");
   };
@@ -190,101 +190,111 @@ const AdminPanel = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="submit-container">
-          <div className="first-input-container">
-            <input
-              className="first-input companyname"
-              type="text"
-              placeholder="Company Name"
-              value={formData.companyname}
-              onChange={(e) => setFormData({ ...formData, companyname: e.target.value })}
-            />
-            <input
-              className="first-input title"
-              type="text"
-              placeholder="Company Title/Role"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            />
+          <div className="submit-form-top-container">
+          <div className="left-container">
+
+            <div className="first-input-container">
+              <input
+                className="first-input companyname"
+                type="text"
+                placeholder="Company Name"
+                value={formData.companyname}
+                onChange={(e) => setFormData({ ...formData, companyname: e.target.value })}
+              />
+              <input
+                className="first-input title"
+                type="text"
+                placeholder="Company Title/Role"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              />
+            </div>
+
+            <div className="second-input-container">
+              <textarea
+                className="second-input description"
+                placeholder="Description Ex:Bachelor's Degree/Master's Degree#         2021/2022/2023/2024#"
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              />
+              <input
+                className="second-input"
+                type="text"
+                placeholder="Apply Link"
+                value={formData.apply_link}
+                onChange={(e) => setFormData({ ...formData, apply_link: e.target.value })}
+              />
+              <input
+                className="second-input"
+                type="text"
+                placeholder="Image Link"
+                value={formData.image_link}
+                onChange={(e) => setFormData({ ...formData, image_link: e.target.value })}
+              />
+              <input
+                className="second-input"
+                type="text"
+                placeholder="URL"
+                value={formData.url}
+                onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+              />
+             
+            </div>
           </div>
 
-          <div className="second-input-container">
-            <textarea
-              className="second-input description"
-              placeholder="Description Ex:Bachelor's Degree/Master's Degree#         2021/2022/2023/2024#"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            />
+          <div className="right-container">
             <input
               className="second-input"
               type="text"
-              placeholder="Apply Link"
-              value={formData.apply_link}
-              onChange={(e) => setFormData({ ...formData, apply_link: e.target.value })}
-            />
-            <input
-              className="second-input"
-              type="text"
-              placeholder="Image Link"
-              value={formData.image_link}
-              onChange={(e) => setFormData({ ...formData, image_link: e.target.value })}
-            />
-            <input
-              className="second-input"
-              type="text"
-              placeholder="URL"
-              value={formData.url}
-              onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-            />
-
-<input
-              className="second-input"
-              type="text"
-              placeholder="salary"
+              placeholder="Salary"
               value={formData.salary}
               onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
             />
 
-<input
+            <input
               className="second-input"
               type="text"
-              placeholder="location"
+              placeholder="Location"
               value={formData.location}
               onChange={(e) => setFormData({ ...formData, location: e.target.value })}
             />
 
-<input
+            <input
               className="second-input"
               type="text"
-              placeholder="job type"
+              placeholder="Job type"
               value={formData.job_type}
               onChange={(e) => setFormData({ ...formData, job_type: e.target.value })}
             />
 
-<input
+            <input
               className="second-input"
               type="text"
-              placeholder="experience"
+              placeholder="Experience"
               value={formData.experience}
               onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
             />
 
-<input
+            <input
               className="second-input"
               type="text"
-              placeholder="batch"
+              placeholder="Batch"
               value={formData.batch}
               onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
             />
-
-
-            <button type="submit" className="button">
-              {editJobId ? "Update Job" : "Add Job"}
-            </button>
-            {/* Add this button for navigating to the PopUp page */}
-            <button onClick={() => navigate("/popup")} className="navigate-popup-button">
-              Manage Popup
-            </button>
           </div>
+          </div>
+          <div className="buttons-container">
+          <button type="submit" className="button-add">
+                {editJobId ? "Update Job" : "Add Job"}
+              </button>
+              {/* Add this button for navigating to the PopUp page */}
+              <button onClick={() => navigate("/popup")} className="navigate-popup-button">
+                Manage Popup
+              </button>
+          </div>
+
+          
         </div>
       </form>
 
@@ -302,19 +312,26 @@ const AdminPanel = () => {
 
             return (
               <div key={job.id} className="job-card">
-                <h1 className="company-card-name">{job.companyname}</h1>
-                <h3>{job.title}</h3>
-                <ul className="descriptions-details-side">
+                <div className="details-container">
+                <div className="left-side">
+                <h1 className="company-card-name">Company Name: {job.companyname}</h1>
+                <h3>Role: {job.title}</h3>
+                <div className="descriptions-details-side">Description: 
                   {descriptionPoints.map((point, index) => (
-                    <li className="list-class" key={index}>{point}</li>
+                    <p className="list-class" key={index}>{point}</p>
                   ))}
-                </ul>
-                <p>{job.url}</p>
-                <p>{job.salary}</p>
-                <p>{job.location}</p>
-                <p>{job.job_type}</p>
-                <p>{job.experience}</p>
-                <p>{job.batch}</p>
+                </div>
+                <p>Url: {job.url}</p>
+
+                </div>
+               <div className="right-side">
+                <p>Salary: {job.salary}</p>
+                <p>Location: {job.location}</p>
+                <p>Job Type: {job.job_type}</p>
+                <p>Experience: {job.experience}</p>
+                <p>Batch: {job.batch}</p>
+               </div>
+                </div>
                 <div className="button-container">
                   <button className="button add-edit-button" onClick={() => handleEdit(job)}>Edit</button>
                   <button className="button add-edit-button" onClick={() => handleDelete(job.id)}>Delete</button>

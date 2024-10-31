@@ -57,6 +57,29 @@ body {
 
 .submit-container {
   gap: 10px;
+  
+}
+
+.submit-form-top-container{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.buttons-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.left-container{
+  width: 100%;
+  
+
+}
+.right-container{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .first-input-container {
@@ -105,7 +128,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 12px;
   transition: background-color 0.3s ease-in-out;
-  width: 30%;
+  width: 50%;
   color: #fff;
   /* Text color for input text */
 }
@@ -146,6 +169,13 @@ body {
   width: 60%;
   margin: 10px 10px;
 }
+.details-container{
+display: flex;
+justify-content: space-around;
+margin-top: 20px;
+}
+
+
 
 .description {
   height: 220px;
@@ -342,6 +372,17 @@ input {
     display: flex;
     color: #fff;
     font-size: 25px;
+  }
+  .submit-form-top-container{
+    display: flex;
+    flex-direction: column;
+  }
+  .right-container{
+    width: 100%;
+  }
+  .details-container{
+    display: flex;
+    flex-direction: column;
   }
 }
 
