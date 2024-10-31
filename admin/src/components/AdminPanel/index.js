@@ -157,7 +157,7 @@ const AdminPanel = () => {
       image_link: job.image_link,
       url: job.url,
       salary: job.salary,
-      location: job.loading,
+      location: job.location,
       job_type: job.job_type,
       experience: job.experience,
       batch: job.batch,
