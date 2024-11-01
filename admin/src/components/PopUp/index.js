@@ -73,7 +73,7 @@ const PopUp = () => {
         if (selectedFile) {
             const imageUrl = await uploadImageToCloudinary(selectedFile);
             if (imageUrl) {
-                setPopup((prevData) => ({ ...prevData, image_link: imageUrl }));
+                setPopup((prevData) => ({ ...prevData, popup_link: imageUrl }));
             }
         }
     };
@@ -139,7 +139,6 @@ const PopUp = () => {
             popup_link: '',
             popup_routing_link: '',
             popup_belowtext: '',
-            image_link: '',
         });
         setFile(null); // Reset the file input
     };
@@ -182,8 +181,8 @@ const PopUp = () => {
                     onChange={handleImageChange}
                     className='popup-input'
                 />
-                {popup.image_link && (
-                    <img src={popup.image_link} alt="Preview" style={{ width: "200px", height: "auto", marginTop: "10px" }} className="preview-image"/>
+                {popup.popup_link && (
+                    <img src={popup.popup_link} alt="Preview" style={{ width: "200px", height: "auto", marginTop: "10px" }} className="preview-image"/>
                 )}
                 
                 <input
