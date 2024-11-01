@@ -18,7 +18,6 @@ const AdminPanel = () => {
     experience: "",
     batch: "",
   });
-  const [imageFile, setImageFile] = useState(null); // Store the uploaded image file
   const [editJobId, setEditJobId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -57,19 +56,6 @@ const AdminPanel = () => {
     }
   };
 
-  // Handle image file input change
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setFormData({ ...formData, image_link: reader.result });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   // Filter jobs based on search query
   useEffect(() => {
     const filtered = jobs.filter(job =>
@@ -99,13 +85,6 @@ const AdminPanel = () => {
       ? `https://backend-vtwx.onrender.com/api/jobs/${editJobId}`
       : `https://backend-vtwx.onrender.com/api/jobs`;
     const method = editJobId ? "PUT" : "POST";
-
-    // Convert formData to include file if required by backend
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
-    }
-    formDataToSend.append("image_file", imageFile);
 
     try {
       const response = await fetch(url, {
@@ -145,7 +124,6 @@ const AdminPanel = () => {
       experience: "",
       batch: "",
     });
-    setImageFile(null); // Reset the image file
     setNotification("");
   };
 
@@ -248,13 +226,11 @@ const AdminPanel = () => {
               />
               <input
                 className="second-input"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
+                type="text"
+                placeholder="Image Link"
+                value={formData.image_link}
+                onChange={(e) => setFormData({ ...formData, image_link: e.target.value })}
               />
-              {formData.image_link && (
-                <img src={formData.image_link} alt="Preview" style={{ width: "200px", height: "auto", marginTop: "10px" }} />
-              )}
               <input
                 className="second-input"
                 type="text"
