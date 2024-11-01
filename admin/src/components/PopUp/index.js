@@ -220,7 +220,7 @@ const PopUp = () => {
                     <div key={popup.id} className="job-card">
                         <h3>{popup.popup_heading}</h3>
                         <p>{popup.popup_text}</p>
-                        <p><strong>Image Link:</strong> {popup.popup_link}</p>
+                        <p><strong>Image Link:</strong>Image Link</p>
                         <p><strong>Routing Link:</strong> {popup.popup_routing_link}</p>
                         <p><strong>Below Text:</strong> {popup.popup_belowtext}</p>
                         <div className="button-container">
