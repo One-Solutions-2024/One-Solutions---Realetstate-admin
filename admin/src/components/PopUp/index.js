@@ -33,11 +33,17 @@ const PopUp = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            if (!response.ok) throw new Error('Failed to fetch popups');
+            if (!response.ok){
+                setNotification("Failed to fetch! Logout and Come again")
+                setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
+
+            }
             const data = await response.json();
             setPopups(data);
         } catch (error) {
-            setNotification(`Error fetching popups: ${error.message}`);
+            setNotification(error.message);
+            setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
+
             console.error('Error fetching popups:', error.message);
         }
     };
@@ -58,6 +64,8 @@ const PopUp = () => {
         } catch (error) {
             console.error("Error uploading to Cloudinary:", error);
             setNotification("Image upload failed. Please try again.");
+            setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
+
             return null;
         }
     };
@@ -100,7 +108,7 @@ const PopUp = () => {
             resetForm();
             setTimeout(() => setNotification(''), 3000);
         } catch (error) {
-            setNotification(`Error saving popup: ${error.message}`);
+            setNotification(error.message);
             console.error('Error saving popup:', error.message);
         }
     };
@@ -126,7 +134,8 @@ const PopUp = () => {
             fetchPopups(token);
             setTimeout(() => setNotification(''), 3000);
         } catch (error) {
-            setNotification(`Error deleting popup: ${error.message}`);
+            setNotification(error.message);
+            setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
             console.error('Error deleting popup:', error.message);
         }
     };

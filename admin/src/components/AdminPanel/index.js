@@ -44,7 +44,11 @@ const AdminPanel = () => {
       const response = await fetch(`https://backend-vtwx.onrender.com/api/jobs/adminpanel`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!response.ok) throw new Error("Failed to fetch jobs");
+      if (!response.ok){
+        setNotification("Failed to fetch jobs! Logout and Come again");
+        setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
+
+      }
       const data = await response.json();
       setJobs(data);
       setFilteredJobs(data);
@@ -130,10 +134,10 @@ const AdminPanel = () => {
         setTimeout(() => setNotification(""), 3000);
       } else {
         const errorMessage = await response.text();
-        setError(`Error: ${errorMessage}`);
+        setError(errorMessage);
       }
     } catch (err) {
-      setError(`Error: ${err.message}`);
+      setError(err.message);
     }
   };
 
@@ -168,10 +172,10 @@ const AdminPanel = () => {
         setTimeout(() => setNotification(""), 3000);
       } else {
         const errorMessage = await response.text();
-        setError(`Error: ${errorMessage}`);
+        setError(errorMessage);
       }
     } catch (err) {
-      setError(`Error: ${err.message}`);
+      setError(err.message);
     }
   };
 
