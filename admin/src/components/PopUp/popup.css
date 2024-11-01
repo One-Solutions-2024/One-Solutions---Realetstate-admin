@@ -46,7 +46,20 @@
     /* Placeholder text color turns black when focused */
   }
 
-.popup-name {
+.popup-name-admin {
+    flex: 1;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  padding-top: 20px;
+  font-size: 26px;
+  text-align: center;
+  color: aqua;
+  font-weight: bold;
+  padding-left: 230px;
+  }
+
+  .popup-name {
     flex: 1;
   text-align: center;
   font-size: 1.5em;
@@ -93,7 +106,6 @@ button:hover {
 .navigate-popup-button,
 .navigate-admin-button {
     margin: 10px;
-    margin-left: -230px;
     padding: 10px 15px;
     background-color: #007BFF; /* Bootstrap primary color */
     color: white;

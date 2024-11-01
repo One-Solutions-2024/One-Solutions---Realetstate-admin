@@ -146,7 +146,7 @@ const PopUp = () => {
     return (
         <div className="admin-panel-popup">
             <div className="admin-header">
-                <h1 className='popup-name'>Admin Popup Management</h1>
+                <h1 className='popup-name-admin'>Admin Popup Management</h1>
                 <button onClick={() => navigate("/admin")} className="navigate-admin-button logout-button">
                     Back to Admin Panel
                 </button>
