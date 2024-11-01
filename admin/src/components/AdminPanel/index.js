@@ -46,7 +46,7 @@ const AdminPanel = () => {
       });
       if (!response.ok){
         setNotification("Failed to fetch jobs! Logout and Come again");
-        setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
+        setTimeout(() => setNotification(""), 8000); // Clear notification after 3 seconds
 
       }
       const data = await response.json();
@@ -54,8 +54,9 @@ const AdminPanel = () => {
       setFilteredJobs(data);
       setTotalPages(Math.ceil(data.length / jobsPerPage));
     } catch (err) {
-      setError(err.message);
-    } finally {
+      setNotification("Failed to fetch jobs! Logout and Come again");
+      setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
+  } finally {
       setLoading(false);
     }
   };
@@ -347,11 +348,11 @@ const AdminPanel = () => {
                   <div className="left-side">
                     <h1 className="company-card-name">Company Name: {job.companyname}</h1>
                     <h3>Role: {job.title}</h3>
-                    <div className="descriptions-details-side">Description:
+                    <ul className="descriptions-details-side">Description:
                       {descriptionPoints.map((point, index) => (
-                        <p className="list-class" key={index}>{point}</p>
+                        <li className="list-class" key={index}>{point}</li>
                       ))}
-                    </div>
+                    </ul>
                     <p>Url: {job.url}</p>
                   </div>
                   <div className="right-side">
