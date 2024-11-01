@@ -169,3 +169,10 @@ form button:hover {
 .pop-upbutton:hover {
     background-color: #c82333;
 }
+
+@media (max-width:480px) {
+  .popup-name-admin{
+    padding-left: 0px;
+  }
+  
+}
