@@ -1,6 +1,6 @@
 
 .admin-panel-popup{
-    background-image: url("https://wallpapercave.com/wp/wp3071223.jpg");
+    background-image: url("https://wallpapercave.com/wp/wp6571223.jpg");
   background-size: cover;
   font-family: Arial, Helvetica, sans-serif;
   width: 100%;
@@ -82,12 +82,18 @@ button:hover {
     background-color: #0056b3;
 }
 
-
+.popup-description {
+    border-radius: 12px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+  }
 
 
 .navigate-popup-button,
 .navigate-admin-button {
     margin: 10px;
+    margin-left: -230px;
     padding: 10px 15px;
     background-color: #007BFF; /* Bootstrap primary color */
     color: white;

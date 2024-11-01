@@ -169,7 +169,7 @@ const PopUp = () => {
                 />
                 <textarea
                     name="popup_text"
-                    className='popup-input'
+                    className='popup-input popup-description'
                     placeholder="Popup Text"
                     value={popup.popup_text}
                     onChange={handleChange}
@@ -194,7 +194,7 @@ const PopUp = () => {
                     onChange={handleChange}
                     required
                 />
-                <textarea
+                <input
                     name="popup_belowtext"
                     className='popup-input'
                     placeholder="Popup Below Text"
