@@ -69,6 +69,34 @@ const AdminPanel = () => {
     setCurrentPage(1); // Reset to first page when filtering
   }, [formData, jobs]);
 
+  const uploadImageToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "sfdqoeq5"); // Replace with your actual preset
+    formData.append("cloud_name", "dsjcty43b"); // Replace with your Cloudinary cloud name
+
+    try {
+      const response = await fetch("https://api.cloudinary.com/v1_1/dsjcty43b/image/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      return data.secure_url; // Get the image URL from Cloudinary
+    } catch (error) {
+      console.error("Error uploading to Cloudinary:", error);
+      setError("Image upload failed. Please try again.");
+    }
+  };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = await uploadImageToCloudinary(file); // Upload and get URL
+      if (imageUrl) {
+        setFormData({ ...formData, image_link: imageUrl }); // Set the URL in image_link
+      }
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -178,7 +206,7 @@ const AdminPanel = () => {
           Logout
         </button>
         <div onClick={() => localStorage.removeItem("token") || navigate("/login")} className="logout-icon">
-          <i class="fa-solid fa-right-from-bracket"></i>
+          <i className="fa-solid fa-right-from-bracket"></i>
         </div>
       </div>
       {notification && (
@@ -191,110 +219,105 @@ const AdminPanel = () => {
       <form onSubmit={handleSubmit}>
         <div className="submit-container">
           <div className="submit-form-top-container">
-          <div className="left-container">
+            <div className="left-container">
+              <div className="first-input-container">
+                <input
+                  className="first-input companyname"
+                  type="text"
+                  placeholder="Company Name"
+                  value={formData.companyname}
+                  onChange={(e) => setFormData({ ...formData, companyname: e.target.value })}
+                />
+                <input
+                  className="first-input title"
+                  type="text"
+                  placeholder="Company Title/Role"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                />
+              </div>
 
-            <div className="first-input-container">
-              <input
-                className="first-input companyname"
-                type="text"
-                placeholder="Company Name"
-                value={formData.companyname}
-                onChange={(e) => setFormData({ ...formData, companyname: e.target.value })}
-              />
-              <input
-                className="first-input title"
-                type="text"
-                placeholder="Company Title/Role"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              />
+              <div className="second-input-container">
+                <textarea
+                  className="second-input description"
+                  placeholder="Description Ex:Bachelor's Degree/Master's Degree#         2021/2022/2023/2024#"
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                />
+                <input
+                  className="second-input"
+                  type="text"
+                  placeholder="Apply Link"
+                  value={formData.apply_link}
+                  onChange={(e) => setFormData({ ...formData, apply_link: e.target.value })}
+                />
+                {/* Image upload input */}
+                <input
+                  className="second-input"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+                <input
+                  className="second-input"
+                  type="text"
+                  placeholder="URL"
+                  value={formData.url}
+                  onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                />
+              </div>
             </div>
 
-            <div className="second-input-container">
-              <textarea
-                className="second-input description"
-                placeholder="Description Ex:Bachelor's Degree/Master's Degree#         2021/2022/2023/2024#"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              />
+            <div className="right-container">
               <input
                 className="second-input"
                 type="text"
-                placeholder="Apply Link"
-                value={formData.apply_link}
-                onChange={(e) => setFormData({ ...formData, apply_link: e.target.value })}
+                placeholder="Salary"
+                value={formData.salary}
+                onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
               />
+
               <input
                 className="second-input"
                 type="text"
-                placeholder="Image Link"
-                value={formData.image_link}
-                onChange={(e) => setFormData({ ...formData, image_link: e.target.value })}
+                placeholder="Location"
+                value={formData.location}
+                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
               />
+
               <input
                 className="second-input"
                 type="text"
-                placeholder="URL"
-                value={formData.url}
-                onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                placeholder="Job type"
+                value={formData.job_type}
+                onChange={(e) => setFormData({ ...formData, job_type: e.target.value })}
               />
-             
+
+              <input
+                className="second-input"
+                type="text"
+                placeholder="Experience"
+                value={formData.experience}
+                onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
+              />
+
+              <input
+                className="second-input"
+                type="text"
+                placeholder="Batch"
+                value={formData.batch}
+                onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
+              />
             </div>
-          </div>
-
-          <div className="right-container">
-            <input
-              className="second-input"
-              type="text"
-              placeholder="Salary"
-              value={formData.salary}
-              onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
-            />
-
-            <input
-              className="second-input"
-              type="text"
-              placeholder="Location"
-              value={formData.location}
-              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-            />
-
-            <input
-              className="second-input"
-              type="text"
-              placeholder="Job type"
-              value={formData.job_type}
-              onChange={(e) => setFormData({ ...formData, job_type: e.target.value })}
-            />
-
-            <input
-              className="second-input"
-              type="text"
-              placeholder="Experience"
-              value={formData.experience}
-              onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-            />
-
-            <input
-              className="second-input"
-              type="text"
-              placeholder="Batch"
-              value={formData.batch}
-              onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
-            />
-          </div>
           </div>
           <div className="buttons-container">
-          <button type="submit" className="button-add">
-                {editJobId ? "Update Job" : "Add Job"}
-              </button>
-              {/* Add this button for navigating to the PopUp page */}
-              <button onClick={() => navigate("/popup")} className="navigate-popup-button">
-                Manage Popup
-              </button>
+            <button type="submit" className="button-add">
+              {editJobId ? "Update Job" : "Add Job"}
+            </button>
+            <button onClick={() => navigate("/popup")} className="navigate-popup-button">
+              Manage Popup
+            </button>
           </div>
-
-          
         </div>
       </form>
 
@@ -313,24 +336,23 @@ const AdminPanel = () => {
             return (
               <div key={job.id} className="job-card">
                 <div className="details-container">
-                <div className="left-side">
-                <h1 className="company-card-name">Company Name: {job.companyname}</h1>
-                <h3>Role: {job.title}</h3>
-                <div className="descriptions-details-side">Description: 
-                  {descriptionPoints.map((point, index) => (
-                    <p className="list-class" key={index}>{point}</p>
-                  ))}
-                </div>
-                <p>Url: {job.url}</p>
-
-                </div>
-               <div className="right-side">
-                <p>Salary: {job.salary}</p>
-                <p>Location: {job.location}</p>
-                <p>Job Type: {job.job_type}</p>
-                <p>Experience: {job.experience}</p>
-                <p>Batch: {job.batch}</p>
-               </div>
+                  <div className="left-side">
+                    <h1 className="company-card-name">Company Name: {job.companyname}</h1>
+                    <h3>Role: {job.title}</h3>
+                    <div className="descriptions-details-side">Description: 
+                      {descriptionPoints.map((point, index) => (
+                        <p className="list-class" key={index}>{point}</p>
+                      ))}
+                    </div>
+                    <p>Url: {job.url}</p>
+                  </div>
+                  <div className="right-side">
+                    <p>Salary: {job.salary}</p>
+                    <p>Location: {job.location}</p>
+                    <p>Job Type: {job.job_type}</p>
+                    <p>Experience: {job.experience}</p>
+                    <p>Batch: {job.batch}</p>
+                  </div>
                 </div>
                 <div className="button-container">
                   <button className="button add-edit-button" onClick={() => handleEdit(job)}>Edit</button>
