@@ -13,6 +13,7 @@ const PopUp = () => {
         popup_link: '',
         popup_routing_link: '',
         popup_belowtext: '',
+        image_link: '', // Add this field to hold the image link
     });
     const [notification, setNotification] = useState('');
     const navigate = useNavigate();
@@ -40,9 +41,39 @@ const PopUp = () => {
         }
     };
 
+    const uploadImageToCloudinary = async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "sfdqoeq5"); // Replace with your actual preset
+        formData.append("cloud_name", "dsjcty43b"); // Replace with your Cloudinary cloud name
+
+        try {
+            const response = await fetch("https://api.cloudinary.com/v1_1/dsjcty43b/image/upload", {
+                method: "POST",
+                body: formData,
+            });
+            const data = await response.json();
+            return data.secure_url; // Get the image URL from Cloudinary
+        } catch (error) {
+            console.error("Error uploading to Cloudinary:", error);
+            setNotification("Image upload failed. Please try again.");
+            return null; // Return null if upload fails
+        }
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setPopup((prevData) => ({ ...prevData, [name]: value }));
+    };
+
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const imageUrl = await uploadImageToCloudinary(file); // Upload and get URL
+            if (imageUrl) {
+                setPopup((prevData) => ({ ...prevData, image_link: imageUrl })); // Set the URL in image_link
+            }
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -105,22 +136,21 @@ const PopUp = () => {
             popup_link: '',
             popup_routing_link: '',
             popup_belowtext: '',
+            image_link: '', // Reset the image link
         });
     };
 
     return (
         <div className="admin-panel-popup">
             <div className="admin-header">
-
                 <h1 className='popup-name'>Admin Popup Management</h1>
                 <button onClick={() => navigate("/admin")} className="navigate-admin-button logout-button">
                     Back to Admin Panel
                 </button>
                 <div onClick={() => navigate("/admin")} className="logout-icon">
-                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <i className="fa-solid fa-right-from-bracket"></i>
                 </div>
             </div>
-
 
             {notification && <div className="notification-popup">{notification}</div>}
 
@@ -137,16 +167,23 @@ const PopUp = () => {
                 <textarea
                     name="popup_text"
                     className='popup-input'
-
                     placeholder="Popup Text"
                     value={popup.popup_text}
                     onChange={handleChange}
                     required
                 />
                 <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className='popup-input'
+                />
+                {popup.image_link && (
+                    <img src={popup.image_link} alt="Preview" style={{ width: "200px", height: "auto", marginTop: "10px" }} />
+                )}
+                <input
                     type="text"
                     className='popup-input'
-
                     name="popup_link"
                     placeholder="Popup Image Link"
                     value={popup.popup_link}
@@ -156,7 +193,6 @@ const PopUp = () => {
                 <input
                     type="text"
                     className='popup-input'
-
                     name="popup_routing_link"
                     placeholder="Popup Routing Link"
                     value={popup.popup_routing_link}
@@ -166,7 +202,6 @@ const PopUp = () => {
                 <textarea
                     name="popup_belowtext"
                     className='popup-input'
-
                     placeholder="Popup Below Text"
                     value={popup.popup_belowtext}
                     onChange={handleChange}
@@ -185,15 +220,12 @@ const PopUp = () => {
                         <p><strong>Routing Link:</strong> {popup.popup_routing_link}</p>
                         <p><strong>Below Text:</strong> {popup.popup_belowtext}</p>
                         <div className="button-container">
-
                             <button className='pop-upbutton' onClick={() => handleEdit(popup)}>Edit</button>
                             <button className='pop-upbutton' onClick={() => handleDelete(popup.id)}>Delete</button>
                         </div>
-
                     </div>
                 ))}
             </ul>
-
         </div>
     );
 };

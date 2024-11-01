@@ -258,6 +258,10 @@ const AdminPanel = () => {
                   accept="image/*"
                   onChange={handleImageChange}
                 />
+                {formData.image_link && (
+                  <img src={formData.image_link} alt="Preview" style={{ width: "200px", height: "auto", marginTop: "10px" }} className="preview-image"/>
+                )}
+
                 <input
                   className="second-input"
                   type="text"
@@ -339,7 +343,7 @@ const AdminPanel = () => {
                   <div className="left-side">
                     <h1 className="company-card-name">Company Name: {job.companyname}</h1>
                     <h3>Role: {job.title}</h3>
-                    <div className="descriptions-details-side">Description: 
+                    <div className="descriptions-details-side">Description:
                       {descriptionPoints.map((point, index) => (
                         <p className="list-class" key={index}>{point}</p>
                       ))}
