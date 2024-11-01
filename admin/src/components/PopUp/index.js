@@ -13,9 +13,10 @@ const PopUp = () => {
         popup_link: '',
         popup_routing_link: '',
         popup_belowtext: '',
-        image_link: '', // Add this field to hold the image link
+        image_link: '', // This holds the image link
     });
     const [notification, setNotification] = useState('');
+    const [file, setFile] = useState(null); // State to hold the selected file
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -44,8 +45,8 @@ const PopUp = () => {
     const uploadImageToCloudinary = async (file) => {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", "sfdqoeq5"); // Replace with your actual preset
-        formData.append("cloud_name", "dsjcty43b"); // Replace with your Cloudinary cloud name
+        formData.append("upload_preset", "sfdqoeq5");
+        formData.append("cloud_name", "dsjcty43b");
 
         try {
             const response = await fetch("https://api.cloudinary.com/v1_1/dsjcty43b/image/upload", {
@@ -53,11 +54,11 @@ const PopUp = () => {
                 body: formData,
             });
             const data = await response.json();
-            return data.secure_url; // Get the image URL from Cloudinary
+            return data.secure_url;
         } catch (error) {
             console.error("Error uploading to Cloudinary:", error);
             setNotification("Image upload failed. Please try again.");
-            return null; // Return null if upload fails
+            return null;
         }
     };
 
@@ -67,11 +68,12 @@ const PopUp = () => {
     };
 
     const handleImageChange = async (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const imageUrl = await uploadImageToCloudinary(file); // Upload and get URL
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile); // Update the file state
+        if (selectedFile) {
+            const imageUrl = await uploadImageToCloudinary(selectedFile);
             if (imageUrl) {
-                setPopup((prevData) => ({ ...prevData, image_link: imageUrl })); // Set the URL in image_link
+                setPopup((prevData) => ({ ...prevData, image_link: imageUrl }));
             }
         }
     };
@@ -105,6 +107,7 @@ const PopUp = () => {
 
     const handleEdit = (popup) => {
         setPopup(popup);
+        setFile(null); // Reset the file state on edit
     };
 
     const handleDelete = async (id) => {
@@ -136,8 +139,9 @@ const PopUp = () => {
             popup_link: '',
             popup_routing_link: '',
             popup_belowtext: '',
-            image_link: '', // Reset the image link
+            image_link: '',
         });
+        setFile(null); // Reset the file input
     };
 
     return (
@@ -179,7 +183,7 @@ const PopUp = () => {
                     className='popup-input'
                 />
                 {popup.image_link && (
-                    <img src={popup.image_link} alt="Preview" style={{ width: "200px", height: "auto", marginTop: "10px" }} />
+                    <img src={popup.image_link} alt="Preview" style={{ width: "200px", height: "auto", marginTop: "10px" }} className="preview-image"/>
                 )}
                 
                 <input
