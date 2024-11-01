@@ -181,15 +181,7 @@ const PopUp = () => {
                 {popup.image_link && (
                     <img src={popup.image_link} alt="Preview" style={{ width: "200px", height: "auto", marginTop: "10px" }} />
                 )}
-                <input
-                    type="text"
-                    className='popup-input'
-                    name="popup_link"
-                    placeholder="Popup Image Link"
-                    value={popup.popup_link}
-                    onChange={handleChange}
-                    required
-                />
+                
                 <input
                     type="text"
                     className='popup-input'
