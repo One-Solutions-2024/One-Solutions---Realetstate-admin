@@ -155,7 +155,6 @@ const PopUp = () => {
             popup_routing_link: '',
             popup_belowtext: '',
         });
-        setNotification("");
         setFile(null); // Reset the file input
     };
 
