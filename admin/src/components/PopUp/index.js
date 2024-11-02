@@ -13,7 +13,6 @@ const PopUp = () => {
         popup_link: '',
         popup_routing_link: '',
         popup_belowtext: '',
-        image_link: '', // This holds the image link
     });
     const [notification, setNotification] = useState('');
     const [file, setFile] = useState(null); // State to hold the selected file
@@ -93,7 +92,7 @@ const PopUp = () => {
         const url = popup.id ? `${apiUrl}/${popup.id}` : apiUrl;
 
          // Validate form fields
-    if (!formData.popup_heading || !formData.popup_text || !formData.popup_link || !formData.popup_routing_link || !formData.popup_belowtext) {
+    if (!popup.popup_heading || !popup.popup_text || !popup.popup_link || !popup.popup_routing_link || !popup.popup_belowtext) {
         setNotification("All fields are required!");
         setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
         return; // Exit the function if validation fails
