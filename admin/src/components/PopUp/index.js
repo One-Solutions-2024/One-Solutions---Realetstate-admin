@@ -92,6 +92,13 @@ const PopUp = () => {
         const method = popup.id ? 'PUT' : 'POST';
         const url = popup.id ? `${apiUrl}/${popup.id}` : apiUrl;
 
+         // Validate form fields
+    if (!formData.popup_heading || !formData.popup_text || !formData.popup_link || !formData.popup_routing_link || !formData.popup_belowtext) {
+        setNotification("All fields are required!");
+        setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
+        return; // Exit the function if validation fails
+      }
+
         try {
             const response = await fetch(url, {
                 method,
@@ -149,6 +156,7 @@ const PopUp = () => {
             popup_routing_link: '',
             popup_belowtext: '',
         });
+        setNotification("");
         setFile(null); // Reset the file input
     };
 
