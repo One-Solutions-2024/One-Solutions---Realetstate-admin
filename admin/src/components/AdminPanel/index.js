@@ -46,7 +46,7 @@ const AdminPanel = () => {
       });
       if (!response.ok){
         setNotification("Failed to fetch jobs! Logout and Come again");
-        setTimeout(() => setNotification(""), 8000); // Clear notification after 3 seconds
+        setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
 
       }
       const data = await response.json();
