@@ -348,19 +348,19 @@ const AdminPanel = () => {
                   <div className="left-side">
                     <h1 className="company-card-name">Company Name: {job.companyname}</h1>
                     <h3>Role: {job.title}</h3>
-                    <ul className="descriptions-details-side">Description:
+                    <ul className="descriptions-details-side"><strong>Description:</strong>
                       {descriptionPoints.map((point, index) => (
                         <li className="list-class" key={index}>{point}</li>
                       ))}
                     </ul>
-                    <p>Url: {job.url}</p>
+                    <p><strong>Url: </strong>{job.url}</p>
                   </div>
                   <div className="right-side">
-                    <p>Salary: {job.salary}</p>
-                    <p>Location: {job.location}</p>
-                    <p>Job Type: {job.job_type}</p>
-                    <p>Experience: {job.experience}</p>
-                    <p>Batch: {job.batch}</p>
+                    <p> <strong>Salary: </strong>{job.salary}</p>
+                    <p> <strong>Location: </strong>{job.location}</p>
+                    <p> <strong>Job Type: </strong>{job.job_type}</p>
+                    <p> <strong>Experience: </strong>{job.experience}</p>
+                    <p> <strong>Batch: </strong>{job.batch}</p>
                   </div>
                 </div>
                 <div className="button-container">

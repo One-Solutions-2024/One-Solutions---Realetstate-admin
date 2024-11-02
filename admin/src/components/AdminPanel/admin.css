@@ -173,6 +173,13 @@ body {
 display: flex;
 justify-content: space-around;
 margin-top: 20px;
+width: 100%;
+}
+.left-side{
+  width: 50%;
+}
+.right-side{
+  width: 20%;
 }
 
 
