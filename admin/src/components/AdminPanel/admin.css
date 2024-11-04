@@ -122,6 +122,12 @@ body {
 }
 
 
+.top-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .second-input {
   background-color: transparent;
   padding: 10px;
@@ -154,7 +160,6 @@ body {
   color: #000;
   /* Placeholder text color turns black when focused */
 }
-
 
 
 

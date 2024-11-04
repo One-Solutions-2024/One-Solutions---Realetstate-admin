@@ -17,6 +17,7 @@ const AdminPanel = () => {
     job_type: "",
     experience: "",
     batch: "",
+    job_uploader: "",
   });
   const [editJobId, setEditJobId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -156,6 +157,7 @@ const AdminPanel = () => {
       job_type: "",
       experience: "",
       batch: "",
+      job_uploader:"",
     });
     setNotification("");
   };
@@ -194,6 +196,7 @@ const AdminPanel = () => {
       job_type: job.job_type,
       experience: job.experience,
       batch: job.batch,
+      job_uploader:job.job_uploader,
     });
   };
 
@@ -225,7 +228,17 @@ const AdminPanel = () => {
         <div className="submit-container">
           <div className="submit-form-top-container">
             <div className="left-container">
-              <div className="first-input-container">
+              <div>
+                <div className="top-container">
+                <input 
+                className="second-input job-uploader"
+                type = "text"
+                placeholder="Job Uploader"
+                value={formData.job_uploader}
+                onChange={(e) => setFormData({ ...formData, job_uploader: e.target.value})}
+                />
+                </div>
+                <div className="first-input-container">
                 <input
                   className="first-input companyname"
                   type="text"
@@ -240,6 +253,8 @@ const AdminPanel = () => {
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 />
+                </div>
+               
               </div>
 
               <div className="second-input-container">
