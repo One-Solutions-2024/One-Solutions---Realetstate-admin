@@ -233,7 +233,7 @@ const AdminPanel = () => {
                 <input 
                 className="second-input job-uploader"
                 type = "text"
-                placeholder="Job Uploader"
+                placeholder="Job Uploader Ex: G Ekambaram"
                 value={formData.job_uploader}
                 onChange={(e) => setFormData({ ...formData, job_uploader: e.target.value})}
                 />
