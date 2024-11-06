@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import debounce from 'lodash.debounce';
+
 import "./admin.css";
 
 const AdminPanel = () => {
@@ -25,6 +27,8 @@ const AdminPanel = () => {
   const [notification, setNotification] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [imageLoading, setImageLoading] = useState(false);
+
 
   const navigate = useNavigate();
   const jobsPerPage = 8;
@@ -37,6 +41,38 @@ const AdminPanel = () => {
       fetchJobs(token);
     }
   }, []);
+
+  const validateToken = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setNotification("Failed to fetch jobs! Logout and come again");
+      setTimeout(() => setNotification(""), 3000);
+      return false;
+    }
+    return true;
+  };
+
+  const handleFocus = (e) => {
+    if (!validateToken()) {
+      e.target.blur();  // Unfocus the field to prevent further input
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decoded = JSON.parse(atob(token.split(".")[1]));
+        if (decoded.exp * 1000 < Date.now()) {
+          localStorage.removeItem("token");
+          navigate("/login");
+        }
+      }
+    }, 60000); // check every 1 minute
+  
+    return () => clearInterval(interval);
+  }, []);
+  
 
   const fetchJobs = async (token) => {
     setLoading(true);
@@ -64,6 +100,8 @@ const AdminPanel = () => {
 
   // Filter jobs based on search query
   useEffect(() => {
+    const debouncedFilter = debounce(() => {
+
     const filtered = jobs.filter(job =>
       job.companyname.toLowerCase().includes(formData.companyname.toLowerCase()) ||
       job.title.toLowerCase().includes(formData.title.toLowerCase()) ||
@@ -73,6 +111,11 @@ const AdminPanel = () => {
     setFilteredJobs(filtered);
     setTotalPages(Math.ceil(filtered.length / jobsPerPage));
     setCurrentPage(1); // Reset to first page when filtering
+  }, 300); // 300ms debounce time
+
+  debouncedFilter();
+
+  return () => debouncedFilter.cancel();
   }, [formData, jobs]);
 
   const uploadImageToCloudinary = async (file) => {
@@ -95,17 +138,24 @@ const AdminPanel = () => {
   };
 
   const handleImageChange = async (e) => {
+    if (!validateToken()) return;
+
     const file = e.target.files[0];
     if (file) {
+      setImageLoading(true);  // Start spinner
+
       const imageUrl = await uploadImageToCloudinary(file); // Upload and get URL
       if (imageUrl) {
         setFormData({ ...formData, image_link: imageUrl }); // Set the URL in image_link
       }
+      setImageLoading(false);  // Stop spinner
+
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateToken()) return;
 
     // Validate form fields
     if (!formData.companyname || !formData.title || !formData.description || !formData.apply_link || !formData.image_link || !formData.url) {
@@ -163,6 +213,8 @@ const AdminPanel = () => {
   };
 
   const handleDelete = async (id) => {
+    if (!validateToken()) return;
+
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(`https://backend-vtwx.onrender.com/api/jobs/${id}`, {
@@ -171,8 +223,14 @@ const AdminPanel = () => {
       });
       if (response.ok) {
         fetchJobs(token);
-        setNotification("Job deleted successfully!");
-        setTimeout(() => setNotification(""), 3000);
+        // Adjust current page if it's empty
+      const newTotalPages = Math.ceil((filteredJobs.length - 1) / jobsPerPage);
+      if (currentPage > newTotalPages) {
+        setCurrentPage(newTotalPages);  // Move to last non-empty page
+      }
+
+      setNotification("Job deleted successfully!");
+      setTimeout(() => setNotification(""), 3000);
       } else {
         const errorMessage = await response.text();
         setError(errorMessage);
@@ -218,9 +276,9 @@ const AdminPanel = () => {
         </div>
       </div>
       {notification && (
-        <div className={`notification-popup ${notification === "All fields are required!" ? "error" : ""}`}>
-          {notification}
-        </div>
+        <div className={`notification-popup ${notification === "All fields are required!" || notification === "Failed to fetch jobs! Logout and Come again" ? "error" : ""}`}>
+        {notification}
+      </div>
       )}
       {error && <div className="error">Error: {error}</div>}
 
@@ -235,6 +293,7 @@ const AdminPanel = () => {
                 type = "text"
                 placeholder="Job Uploader Ex: G Ekambaram"
                 value={formData.job_uploader}
+                onFocus={handleFocus} 
                 onChange={(e) => setFormData({ ...formData, job_uploader: e.target.value})}
                 />
                 </div>
@@ -244,6 +303,7 @@ const AdminPanel = () => {
                   type="text"
                   placeholder="Company Name"
                   value={formData.companyname}
+                  onFocus={handleFocus} 
                   onChange={(e) => setFormData({ ...formData, companyname: e.target.value })}
                 />
                 <input
@@ -251,6 +311,7 @@ const AdminPanel = () => {
                   type="text"
                   placeholder="Company Title/Role"
                   value={formData.title}
+                  onFocus={handleFocus} 
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 />
                 </div>
@@ -262,6 +323,7 @@ const AdminPanel = () => {
                   className="second-input description"
                   placeholder="Description Ex:Bachelor's Degree/Master's Degree#         2021/2022/2023/2024#"
                   value={formData.description}
+                  onFocus={handleFocus} 
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 />
                 <input
@@ -269,6 +331,7 @@ const AdminPanel = () => {
                   type="text"
                   placeholder="Apply Link"
                   value={formData.apply_link}
+                  onFocus={handleFocus} 
                   onChange={(e) => setFormData({ ...formData, apply_link: e.target.value })}
                 />
                 {/* Image upload input */}
@@ -277,16 +340,22 @@ const AdminPanel = () => {
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
+                  onFocus={handleFocus} 
                 />
-                {formData.image_link && (
-                  <img src={formData.image_link} alt="Preview" style={{ width: "200px", height: "auto", marginTop: "10px" }} className="preview-image"/>
-                )}
+{imageLoading ? (
+  <div className="spinner">Uploading...</div>  // Add your spinner component here
+) : (
+  formData.image_link && (
+    <img src={formData.image_link} alt="Preview" className="preview-image"/>
+  )
+)}
 
                 <input
                   className="second-input"
                   type="text"
                   placeholder="URL"
                   value={formData.url}
+                  onFocus={handleFocus} 
                   onChange={(e) => setFormData({ ...formData, url: e.target.value })}
                 />
               </div>
@@ -298,6 +367,7 @@ const AdminPanel = () => {
                 type="text"
                 placeholder="Salary"
                 value={formData.salary}
+                onFocus={handleFocus} 
                 onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
               />
 
@@ -306,6 +376,7 @@ const AdminPanel = () => {
                 type="text"
                 placeholder="Location"
                 value={formData.location}
+                onFocus={handleFocus}
                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
               />
 
@@ -314,6 +385,7 @@ const AdminPanel = () => {
                 type="text"
                 placeholder="Job type"
                 value={formData.job_type}
+                onFocus={handleFocus} 
                 onChange={(e) => setFormData({ ...formData, job_type: e.target.value })}
               />
 
@@ -322,6 +394,7 @@ const AdminPanel = () => {
                 type="text"
                 placeholder="Experience"
                 value={formData.experience}
+                onFocus={handleFocus} 
                 onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
               />
 
@@ -330,6 +403,7 @@ const AdminPanel = () => {
                 type="text"
                 placeholder="Batch"
                 value={formData.batch}
+                onFocus={handleFocus} 
                 onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
               />
             </div>

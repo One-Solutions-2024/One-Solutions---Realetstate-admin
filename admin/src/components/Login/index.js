@@ -23,22 +23,46 @@ const Login = () => {
     setError(null); // Reset error message on new attempt
     setSuccessMessage(null); // Reset success message on new attempt
     try {
-      const response = await fetch(`https://backend-vtwx.onrender.com/api/login`, {
+      const response = await fetch("https://backend-vtwx.onrender.com/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-      if (!response.ok) throw new Error("Login failed");
+  
+      // Check if the response is not ok (status is 4xx or 5xx)
+      if (!response.ok) {
+        // If the response is not OK, attempt to extract a message from the server's response
+        const responseData = await response.json();
+  
+        if (responseData.error) {
+          // Assuming the backend returns an 'error' field when login fails
+          if (responseData.error === "Invalid username") {
+            setError("Username is not correct");
+          } else if (responseData.error === "Invalid password") {
+            setError("Password is not correct");
+          } else {
+            setError(responseData.error);
+          }
+        } else {
+          setError("Login failed");
+        }
+        throw new Error("Login failed"); // Throw to skip the next steps
+      }
+  
+      // If login is successful, retrieve token
       const { token } = await response.json();
       localStorage.setItem("token", token);
       setSuccessMessage("Login successful!");
       navigate("/admin");
     } catch (err) {
-      setError(err = "You're Offline" || "Login failed");
+      // Handle errors that are not response-related (e.g., network issues)
+      if (!error) setError("You're offline or something went wrong.");
     } finally {
       setLoading(false);
     }
   };
+  
+  
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
