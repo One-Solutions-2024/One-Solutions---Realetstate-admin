@@ -69,10 +69,10 @@ const AdminPanel = () => {
         }
       }
     }, 60000); // check every 1 minute
-  
+
     return () => clearInterval(interval);
   }, []);
-  
+
 
   const fetchJobs = async (token) => {
     setLoading(true);
@@ -81,7 +81,7 @@ const AdminPanel = () => {
       const response = await fetch(`https://backend-vtwx.onrender.com/api/jobs/adminpanel`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!response.ok){
+      if (!response.ok) {
         setNotification("Failed to fetch jobs! Logout and Come again");
         setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
 
@@ -93,7 +93,7 @@ const AdminPanel = () => {
     } catch (err) {
       setNotification("Failed to fetch jobs! Logout and Come again");
       setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
-  } finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -102,20 +102,20 @@ const AdminPanel = () => {
   useEffect(() => {
     const debouncedFilter = debounce(() => {
 
-    const filtered = jobs.filter(job =>
-      job.companyname.toLowerCase().includes(formData.companyname.toLowerCase()) ||
-      job.title.toLowerCase().includes(formData.title.toLowerCase()) ||
-      job.description.toLowerCase().includes(formData.description.toLowerCase())
-    );
+      const filtered = jobs.filter(job =>
+        job.companyname.toLowerCase().includes(formData.companyname.toLowerCase()) ||
+        job.title.toLowerCase().includes(formData.title.toLowerCase()) ||
+        job.description.toLowerCase().includes(formData.description.toLowerCase())
+      );
 
-    setFilteredJobs(filtered);
-    setTotalPages(Math.ceil(filtered.length / jobsPerPage));
-    setCurrentPage(1); // Reset to first page when filtering
-  }, 300); // 300ms debounce time
+      setFilteredJobs(filtered);
+      setTotalPages(Math.ceil(filtered.length / jobsPerPage));
+      setCurrentPage(1); // Reset to first page when filtering
+    }, 300); // 300ms debounce time
 
-  debouncedFilter();
+    debouncedFilter();
 
-  return () => debouncedFilter.cancel();
+    return () => debouncedFilter.cancel();
   }, [formData, jobs]);
 
   const uploadImageToCloudinary = async (file) => {
@@ -207,7 +207,7 @@ const AdminPanel = () => {
       job_type: "",
       experience: "",
       batch: "",
-      job_uploader:"",
+      job_uploader: "",
     });
     setNotification("");
   };
@@ -224,13 +224,13 @@ const AdminPanel = () => {
       if (response.ok) {
         fetchJobs(token);
         // Adjust current page if it's empty
-      const newTotalPages = Math.ceil((filteredJobs.length - 1) / jobsPerPage);
-      if (currentPage > newTotalPages) {
-        setCurrentPage(newTotalPages);  // Move to last non-empty page
-      }
+        const newTotalPages = Math.ceil((filteredJobs.length - 1) / jobsPerPage);
+        if (currentPage > newTotalPages) {
+          setCurrentPage(newTotalPages);  // Move to last non-empty page
+        }
 
-      setNotification("Job deleted successfully!");
-      setTimeout(() => setNotification(""), 3000);
+        setNotification("Job deleted successfully!");
+        setTimeout(() => setNotification(""), 3000);
       } else {
         const errorMessage = await response.text();
         setError(errorMessage);
@@ -254,7 +254,7 @@ const AdminPanel = () => {
       job_type: job.job_type,
       experience: job.experience,
       batch: job.batch,
-      job_uploader:job.job_uploader,
+      job_uploader: job.job_uploader,
     });
   };
 
@@ -277,8 +277,8 @@ const AdminPanel = () => {
       </div>
       {notification && (
         <div className={`notification-popup ${notification === "All fields are required!" || notification === "Failed to fetch jobs! Logout and Come again" ? "error" : ""}`}>
-        {notification}
-      </div>
+          {notification}
+        </div>
       )}
       {error && <div className="error">Error: {error}</div>}
 
@@ -288,34 +288,34 @@ const AdminPanel = () => {
             <div className="left-container">
               <div>
                 <div className="top-container">
-                <input 
-                className="second-input job-uploader"
-                type = "text"
-                placeholder="Job Uploader Ex: G Ekambaram"
-                value={formData.job_uploader}
-                onFocus={handleFocus} 
-                onChange={(e) => setFormData({ ...formData, job_uploader: e.target.value})}
-                />
+                  <input
+                    className="second-input job-uploader"
+                    type="text"
+                    placeholder="Job Uploader Ex: G Ekambaram"
+                    value={formData.job_uploader}
+                    onFocus={handleFocus}
+                    onChange={(e) => setFormData({ ...formData, job_uploader: e.target.value })}
+                  />
                 </div>
                 <div className="first-input-container">
-                <input
-                  className="first-input companyname"
-                  type="text"
-                  placeholder="Company Name"
-                  value={formData.companyname}
-                  onFocus={handleFocus} 
-                  onChange={(e) => setFormData({ ...formData, companyname: e.target.value })}
-                />
-                <input
-                  className="first-input title"
-                  type="text"
-                  placeholder="Company Title/Role"
-                  value={formData.title}
-                  onFocus={handleFocus} 
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                />
+                  <input
+                    className="first-input companyname"
+                    type="text"
+                    placeholder="Company Name"
+                    value={formData.companyname}
+                    onFocus={handleFocus}
+                    onChange={(e) => setFormData({ ...formData, companyname: e.target.value })}
+                  />
+                  <input
+                    className="first-input title"
+                    type="text"
+                    placeholder="Company Title/Role"
+                    value={formData.title}
+                    onFocus={handleFocus}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  />
                 </div>
-               
+
               </div>
 
               <div className="second-input-container">
@@ -323,7 +323,7 @@ const AdminPanel = () => {
                   className="second-input description"
                   placeholder="Description Ex:Bachelor's Degree/Master's Degree#         2021/2022/2023/2024#"
                   value={formData.description}
-                  onFocus={handleFocus} 
+                  onFocus={handleFocus}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 />
                 <input
@@ -331,7 +331,7 @@ const AdminPanel = () => {
                   type="text"
                   placeholder="Apply Link"
                   value={formData.apply_link}
-                  onFocus={handleFocus} 
+                  onFocus={handleFocus}
                   onChange={(e) => setFormData({ ...formData, apply_link: e.target.value })}
                 />
                 {/* Image upload input */}
@@ -340,22 +340,22 @@ const AdminPanel = () => {
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  onFocus={handleFocus} 
+                  onFocus={handleFocus}
                 />
-{imageLoading ? (
-  <div className="spinner">Uploading...</div>  // Add your spinner component here
-) : (
-  formData.image_link && (
-    <img src={formData.image_link} alt="Preview" className="preview-image"/>
-  )
-)}
+                {imageLoading ? (
+                  <div className="loader"></div>
+                ) : (
+                  formData.image_link && (
+                    <img src={formData.image_link} alt="Preview" className="preview-image" />
+                  )
+                )}
 
                 <input
                   className="second-input"
                   type="text"
                   placeholder="URL"
                   value={formData.url}
-                  onFocus={handleFocus} 
+                  onFocus={handleFocus}
                   onChange={(e) => setFormData({ ...formData, url: e.target.value })}
                 />
               </div>
@@ -367,7 +367,7 @@ const AdminPanel = () => {
                 type="text"
                 placeholder="Salary"
                 value={formData.salary}
-                onFocus={handleFocus} 
+                onFocus={handleFocus}
                 onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
               />
 
@@ -385,7 +385,7 @@ const AdminPanel = () => {
                 type="text"
                 placeholder="Job type"
                 value={formData.job_type}
-                onFocus={handleFocus} 
+                onFocus={handleFocus}
                 onChange={(e) => setFormData({ ...formData, job_type: e.target.value })}
               />
 
@@ -394,7 +394,7 @@ const AdminPanel = () => {
                 type="text"
                 placeholder="Experience"
                 value={formData.experience}
-                onFocus={handleFocus} 
+                onFocus={handleFocus}
                 onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
               />
 
@@ -403,7 +403,7 @@ const AdminPanel = () => {
                 type="text"
                 placeholder="Batch"
                 value={formData.batch}
-                onFocus={handleFocus} 
+                onFocus={handleFocus}
                 onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
               />
             </div>
