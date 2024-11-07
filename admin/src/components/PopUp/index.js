@@ -16,6 +16,8 @@ const PopUp = () => {
     });
     const [notification, setNotification] = useState('');
     const [file, setFile] = useState(null); // State to hold the selected file
+    const [imageLoading, setImageLoading] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,7 +34,7 @@ const PopUp = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            if (!response.ok){
+            if (!response.ok) {
                 setNotification("Failed to fetch! Logout and Come again")
                 setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
 
@@ -78,10 +80,14 @@ const PopUp = () => {
         const selectedFile = e.target.files[0];
         setFile(selectedFile); // Update the file state
         if (selectedFile) {
+            setImageLoading(true);  // Start spinner
+
             const imageUrl = await uploadImageToCloudinary(selectedFile);
             if (imageUrl) {
                 setPopup((prevData) => ({ ...prevData, popup_link: imageUrl }));
             }
+            setImageLoading(false);  // Stop spinner
+
         }
     };
 
@@ -91,12 +97,12 @@ const PopUp = () => {
         const method = popup.id ? 'PUT' : 'POST';
         const url = popup.id ? `${apiUrl}/${popup.id}` : apiUrl;
 
-         // Validate form fields
-    if (!popup.popup_heading || !popup.popup_text || !popup.popup_link || !popup.popup_routing_link || !popup.popup_belowtext) {
-        setNotification("All fields are required!");
-        setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
-        return; // Exit the function if validation fails
-      }
+        // Validate form fields
+        if (!popup.popup_heading || !popup.popup_text || !popup.popup_link || !popup.popup_routing_link || !popup.popup_belowtext) {
+            setNotification("All fields are required!");
+            setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
+            return; // Exit the function if validation fails
+        }
 
         try {
             const response = await fetch(url, {
@@ -196,10 +202,16 @@ const PopUp = () => {
                     onChange={handleImageChange}
                     className='popup-input'
                 />
-                {popup.popup_link && (
-                    <img src={popup.popup_link} alt="Preview" style={{ width: "200px", height: "auto", marginTop: "10px" }} className="preview-image"/>
+                {imageLoading ? (
+                    <div className="loader"></div>
+                ) : (
+                    popup.popup_link && (
+                        <img src={popup.popup_link} alt="Preview" style={{ width: "200px", height: "auto", marginTop: "10px" }} className="preview-image" />
+                    )
                 )}
-                
+
+
+
                 <input
                     type="text"
                     className='popup-input'
