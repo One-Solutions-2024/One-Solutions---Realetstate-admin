@@ -28,12 +28,12 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-  
+
       // Check if the response is not ok (status is 4xx or 5xx)
       if (!response.ok) {
         // If the response is not OK, attempt to extract a message from the server's response
         const responseData = await response.json();
-  
+
         if (responseData.error) {
           // Assuming the backend returns an 'error' field when login fails
           if (responseData.error === "Invalid username") {
@@ -48,7 +48,7 @@ const Login = () => {
         }
         throw new Error("Login failed"); // Throw to skip the next steps
       }
-  
+
       // If login is successful, retrieve token
       const { token } = await response.json();
       localStorage.setItem("token", token);
@@ -61,50 +61,55 @@ const Login = () => {
       setLoading(false);
     }
   };
-  
-  
+
+
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
 
   return (
-    <div className="login-container">
-<div className="image-container">
-<img src="https://www.foundit.in/rio/public/images/login-illustration.png" alt="Login" className="login-image"/>
-
-</div>
-      <form onSubmit={handleLogin} className="login-form">
-        <h2>Admin Login</h2>
-        <div className="input-group">
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+    <div  className="login-container">
+      <header className="header">
+        <h1 className="header-title">ONE SOLUTIONS</h1>
+      </header>
+      <div className="login-container-image-form">
+        <div className="image-container">
+          <img src="https://www.foundit.in/rio/public/images/login-illustration.png" alt="Login" className="login-image" />
         </div>
-        <div className="passward-filed-input passward-filed">
-          <input
-            type={showPassword ? "text" : "password"} // Toggle password visibility
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button type="button" onClick={togglePasswordVisibility} className="toggle-password">
-            {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Use icons for visibility toggle */}
+        <form onSubmit={handleLogin} className="login-form">
+          <h2>Admin Login</h2>
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="passward-filed-input passward-filed">
+            <input
+              type={showPassword ? "text" : "password"} // Toggle password visibility
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="button" onClick={togglePasswordVisibility} className="toggle-password">
+              {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Use icons for visibility toggle */}
+            </button>
+          </div>
+
+          <button className="button-login" type="submit" disabled={loading}>
+            {loading ? <span className="loader-login"></span> : "Login"}
           </button>
-        </div>
 
-        <button className="button-login" type="submit" disabled={loading}>
-          {loading ? <span className="loader-login"></span> : "Login"}
-        </button>
+          <div className="message-container">
+            {error && <div className="error fade-in">{error}</div>}
+            {successMessage && <div className="success fade-in">{successMessage}</div>}
+          </div>
+        </form>
+      </div>
 
-        <div className="message-container">
-          {error && <div className="error fade-in">{error}</div>}
-          {successMessage && <div className="success fade-in">{successMessage}</div>}
-        </div>
-      </form>
     </div>
   );
 };

@@ -1,10 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
 
 /* Main container styling */
-.login-container {
-  height: 100vh;
+
+.login-container{
+  height: auto;
+  min-height: 100vh;
   width: 100vw;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
   background-size: cover;
@@ -12,6 +15,34 @@
   text-align: center;
   color: white;
   font-family: Arial, sans-serif;
+}
+.login-container-image-form {
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* Base styles for all devices */
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  height: 100px; /* Set height for the header */
+}
+
+/* Style for the heading */
+.header-title {
+  margin: 0;
+  padding: 0;
+  font-size: 100px; /* Default font size */
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+  color: #00ffdd; /* Example text color */
+  line-height: 1.2; /* Adjust line-height to prevent overlap */
 }
 
 /* Login form styling */
@@ -21,6 +52,7 @@
   border-radius: 10px;
   display: inline-block;
   width: 300px;
+  margin-bottom: 0px;
 }
 
 /* Input styling */
@@ -116,8 +148,10 @@
 }
 
 @media (max-width: 480px) {
-  .login-container {
-    height: 100vh;
+  .login-container{
+    width: 100vw;
+  }
+  .login-container-image-form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -133,7 +167,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 80px;
+    margin-top: 20px;
   }
 
   .button-login {
@@ -153,6 +187,13 @@
     border-top-right-radius: 35px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+  }
+  .header-title{
+    font-size: 50px;
+  }
+  .header{
+    padding-top: 70px;
+
   }
 }
 
