@@ -150,6 +150,7 @@
 @media (max-width: 480px) {
   .login-container{
     width: 100vw;
+    height: auto;
   }
   .login-container-image-form {
     display: flex;

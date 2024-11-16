@@ -78,7 +78,7 @@ const Login = () => {
           <img src="https://www.foundit.in/rio/public/images/login-illustration.png" alt="Login" className="login-image" />
         </div>
         <form onSubmit={handleLogin} className="login-form">
-          <h2>Admin Login</h2>
+          <h2>One Login</h2>
           <div className="input-group">
             <input
               type="text"
