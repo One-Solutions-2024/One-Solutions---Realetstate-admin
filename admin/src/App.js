@@ -1,27 +1,21 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import AdminPanel from './components/AdminPanel';
-import Login from "./components/Login";
-import PopUp from "./components/PopUp";
+// App.js
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SiteManager from "./components/SiteManager";
+import AddSite from "./components/AddSite";
 
-
-function App() {
-  const isAuthenticated = () => !!localStorage.getItem("token");
-
-  return (
-    <Router>
-      <Routes>
-      <Route path="/popup" element={<PopUp />} />
-
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/admin"
-          element={isAuthenticated() ? <AdminPanel /> : <Navigate to="/login" />} // Updated
-        />
-        <Route path="/" element={<Navigate to="/login" replace />} /> {/* Updated */}
-      </Routes>
-    </Router>
-  );
-}
+const App = () => {
+    return (
+        <Router>
+            <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+                <h1>Site Management App</h1>
+                <Routes>
+                    <Route path="/" element={<SiteManager />} />
+                    <Route path="/add" element={<AddSite />} />
+                 </Routes>
+            </div>
+        </Router>
+    );
+};
 
 export default App;
