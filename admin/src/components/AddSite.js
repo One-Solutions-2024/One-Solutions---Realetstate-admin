@@ -6,6 +6,7 @@ const AddSite = () => {
     const [sitetitle, setSitetitle] = useState("");
     const [siteaddress, setSiteaddress] = useState("");
     const [sitedescription, setSitedescription] = useState("");
+    const [setvideo, setSiteVideo] = useState("");
     const [category, setCategory] = useState("");
     const [images, setImages] = useState([]);
     const [message, setMessage] = useState("");
@@ -21,6 +22,7 @@ const AddSite = () => {
         formData.append("sitetitle", sitetitle);
         formData.append("siteaddress", siteaddress);
         formData.append("sitedescription", sitedescription);
+        formData.append("videos", setvideo);
         formData.append("category", category);
 
         // Append multiple images
@@ -40,6 +42,7 @@ const AddSite = () => {
             setSitetitle("");
             setSiteaddress("");
             setSitedescription("");
+            setSiteVideo("");
             setCategory("");
             setImages([]);
         } catch (error) {
@@ -87,6 +90,15 @@ const AddSite = () => {
                         onChange={(e) => setSitedescription(e.target.value)}
                         required
                     ></textarea>
+                </div>
+                <div>
+                    <label>Video:</label>
+                    <input
+                        type="text"
+                        value={setvideo}
+                        onChange={(e) => setSiteVideo(e.target.value)}
+                        required
+                    />
                 </div>
                 <div>
                     <label>Category:</label>

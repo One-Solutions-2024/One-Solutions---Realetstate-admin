@@ -12,6 +12,7 @@ const SiteManager = () => {
         siteaddress: "",
         sitedescription: "",
         category: "",
+        videos: "",
         images: [],
     });
 
@@ -87,6 +88,7 @@ const SiteManager = () => {
             siteaddress: "",
             sitedescription: "",
             category: "",
+            videos: "",
             images: [],
         });
     };
@@ -147,6 +149,7 @@ const SiteManager = () => {
                                             siteaddress: site.siteaddress,
                                             sitedescription: site.sitedescription,
                                             category: site.category,
+                                            videos: site.videos,
                                             images: [],
                                         });
                                     }}
@@ -224,6 +227,16 @@ const SiteManager = () => {
                         type="text"
                         name="category"
                         value={formData.category}
+                        onChange={handleInputChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>videos:</label>
+                    <input
+                        type="text"
+                        name="videos"
+                        value={formData.videos}
                         onChange={handleInputChange}
                         required
                     />
